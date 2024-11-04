@@ -2,11 +2,11 @@
 /*BIBLIOTECAS:*/
 #include <stdio.h>
 #include <stdlib.h>
-#include "moradores.h"
-#include "despesas.h"
-#include "tarefas.h"
-#include "relatorios.h"
-#include "informacoes.h"
+#include "moradores/moradores.h"
+#include "despesas/despesas.h"
+#include "tarefas/tarefas.h"
+#include "relatorios/relatorios.h"
+#include "informacoes/informacoes.h"
 
 /*ASSINATURA DAS FUNÇÕES/FUNCTION'S SIGNATURE*/
 void tela_principal(void); /* void: Significa que a função não retorna nenhum valor e (void): Indica que a função não recebe nenhum parâmetro.*/
