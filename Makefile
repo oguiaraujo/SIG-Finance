@@ -5,10 +5,10 @@ TARGET = sigfinance
 MAIN = sigfinance.c
 
 # Diretórios de cabeçalhos
-INCLUDES = -Imoradores -Idespesas -Itarefas -Iinformacoes -Irelatorios
+INCLUDES = -Imoradores -Idespesas -Itarefas -Iinformacoes -Irelatorios -Ifuncoes
 
 # Fontes e objetos
-SRC_DIRS = moradores despesas tarefas informacoes relatorios
+SRC_DIRS = moradores despesas tarefas informacoes relatorios funcoes
 SOURCES = $(MAIN) $(wildcard $(addsuffix /*.c, $(SRC_DIRS)))
 OBJECTS = $(SOURCES:.c=.o)
 
