@@ -7,7 +7,7 @@
 /////////////////
 
 // Função que remove o "\n" após input do usuário
-// Créditos: ChatGPT
+// Adaptado do ChatGPT
 void remove_enter(char *str){
 	str[strcspn(str, "\n")] = 0;
 }
