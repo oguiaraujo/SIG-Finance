@@ -57,7 +57,7 @@ void menu_moradores(void){
 
 void cadastrar_morador(void){
     char nome[50];
-    char dat_nasc[5];
+    char dat_nasc[20];
     char email[50];
     char tel[17];
     char cpf[13];
@@ -72,14 +72,23 @@ void cadastrar_morador(void){
         fgets(nome, sizeof(nome), stdin);
         remove_enter(nome);
         if (valida_nome(nome)){
-            break; // Sai do laço apenas se o nome for válido
+            break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira um NOME válido!\n");
         }
-    } while (1); // Mantém o laço até que o nome seja valido
+    } while (1); // Mantém o laço até que seja valido
 
-    printf("///            Data de Nascimento: ");
-    fgets(dat_nasc, sizeof(dat_nasc), stdin);
+    do {
+        printf("///            Data de Nascimento (DD/MM/AAAA): ");
+        fgets(dat_nasc, sizeof(dat_nasc), stdin);
+        remove_enter(dat_nasc);
+        if (valida_data(dat_nasc)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira uma DATA válida!\n");
+        }
+    } while (1); // Mantém o laço até quw seja valido
+
     printf("///            E-mail: ");
     fgets(email, sizeof(email), stdin);
     printf("///            Telefone: ");
