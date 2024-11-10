@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tarefas.h"
+#include "../funcoes/funcoes.h"
 
 void menu_tarefas(){
     int opcao;
@@ -61,9 +62,17 @@ void cadastrar_tarefa()
     fgets(id, sizeof(id), stdin);
     printf("/// Descrição da tarefa:                                                    ///\n");
     fgets(descricao, sizeof(descricao), stdin);
-    printf("/// Prazo da tarefa (dd/mm/aaaa):                                           ///\n");
-    fgets(prazo, sizeof(prazo), stdin);
-    getchar();  // Aguarda o usuário pressionar Enter
+
+    do {
+        printf("/// Prazo da tarefa (DD/MM/AAAA):                                           ///\n");
+        fgets(prazo, sizeof(prazo), stdin);
+        remove_enter(prazo);
+        if (valida_data(prazo)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira uma DATA válida!\n");
+        }
+    } while (1); // Mantém o laço até quw seja valido
 }
 
 void pesquisar_tarefa()
@@ -91,9 +100,17 @@ void atualizar_tarefa()
     fgets(id, sizeof(id), stdin);
     printf("/// Nova descrição:                                                         ///\n");
     fgets(nova_descricao, sizeof(nova_descricao), stdin);
-    printf("/// Novo prazo (dd/mm/aaaa):                                                ///\n");
-    fgets(novo_prazo, sizeof(novo_prazo), stdin);
-    getchar();  // Aguarda o usuário pressionar Enter
+
+    do {
+        printf("/// Novo prazo (DD/MM/AAAA):                                                ///\n");
+        fgets(novo_prazo, sizeof(novo_prazo), stdin);
+        remove_enter(novo_prazo);
+        if (valida_data(novo_prazo)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira uma DATA válida!\n");
+        }
+    } while (1); // Mantém o laço até quw seja valido
 }
 
 void excluir_tarefa()
