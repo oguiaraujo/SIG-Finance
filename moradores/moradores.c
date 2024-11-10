@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "moradores.h"
+#include "../funcoes/funcoes.h"
 
 void menu_moradores(void){
     int opcao;
@@ -65,8 +66,18 @@ void cadastrar_morador(void){
     printf("///            = = = = = Cadastrar Novo Morador = = = = = = = = = = = = =   ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe os dados do morador:                                            ///\n");
-    printf("///            Nome: ");
-    fgets(nome, sizeof(nome), stdin);
+    // do While que garante um nome
+    do {
+        printf("///            Nome: ");
+        fgets(nome, sizeof(nome), stdin);
+        remove_enter(nome);
+        if (valida_nome(nome)){
+            break; // Sai do laço apenas se o nome for válido
+        } else{
+            printf("///            Insira um NOME válido!\n");
+        }
+    } while (1); // Mantém o laço até que o nome seja valido
+
     printf("///            Idade: ");
     fgets(idade, sizeof(idade), stdin);
     printf("///            E-mail: ");
