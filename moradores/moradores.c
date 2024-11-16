@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "moradores.h"
+#include "../funcoes/funcoes.h"
 
 void menu_moradores(void){
     int opcao;
@@ -56,7 +57,7 @@ void menu_moradores(void){
 
 void cadastrar_morador(void){
     char nome[50];
-    char idade[5];
+    char dat_nasc[20];
     char email[50];
     char tel[17];
     char cpf[13];
@@ -65,10 +66,29 @@ void cadastrar_morador(void){
     printf("///            = = = = = Cadastrar Novo Morador = = = = = = = = = = = = =   ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe os dados do morador:                                            ///\n");
-    printf("///            Nome: ");
-    fgets(nome, sizeof(nome), stdin);
-    printf("///            Idade: ");
-    fgets(idade, sizeof(idade), stdin);
+    // do While que garante um nome
+    do {
+        printf("///            Nome: ");
+        fgets(nome, sizeof(nome), stdin);
+        remove_enter(nome);
+        if (valida_nome(nome)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um NOME válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+
+    do {
+        printf("///            Data de Nascimento (DD/MM/AAAA): ");
+        fgets(dat_nasc, sizeof(dat_nasc), stdin);
+        remove_enter(dat_nasc);
+        if (valida_data(dat_nasc)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira uma DATA válida!\n");
+        }
+    } while (1); // Mantém o laço até quw seja valido
+
     printf("///            E-mail: ");
     fgets(email, sizeof(email), stdin);
     printf("///            Telefone: ");
@@ -79,7 +99,7 @@ void cadastrar_morador(void){
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            Morador cadastrado com sucesso!                              ///\n");
     printf("///            Nome: %s", nome);
-    printf("///            Idade: %s", idade);
+    printf("///            Data de Nascimento: %s", dat_nasc);
     printf("///            E-mail: %s", email);
     printf("///            Tel: %s", tel);
     printf("///            CPF: %s", cpf);

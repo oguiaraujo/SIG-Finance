@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "despesas.h"
+#include "../funcoes/funcoes.h"
 
 void menu_despesas(void){
     int opcao;
@@ -62,8 +63,18 @@ void cadastrar_despesa()
     fgets(descricao, sizeof(descricao), stdin);
     printf("///            Valor: ");
     fgets(valor, sizeof(valor), stdin);
-    printf("///            Data (dd/mm/aaaa): ");
-    fgets(data, sizeof(data), stdin);
+
+    do {
+        printf("///            Data (DD/MM/AAAA): ");
+        fgets(data, sizeof(data), stdin);
+        remove_enter(data);
+        if (valida_data(data)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira uma DATA válida!\n");
+        }
+    } while (1); // Mantém o laço até quw seja valido
+
     printf("///            id: ");
     fgets(id, sizeof(id), stdin);
 
@@ -105,8 +116,18 @@ void atualizar_despesa() {
     fgets(descricao, sizeof(descricao), stdin);
     printf("/// Informe o valor da despesa:                                            ///\n");
     fgets(valor, sizeof(valor), stdin);
-    printf("/// Informe a data da despesa (DD/MM/AAAA):                               ///\n");
-    fgets(data, sizeof(data), stdin);
+
+    do {
+        printf("/// Informe a data da despesa (DD/MM/AAAA):                               ///\n");
+        fgets(data, sizeof(data), stdin);
+        remove_enter(data);
+        if (valida_data(data)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira uma DATA válida!\n");
+        }
+    } while (1); // Mantém o laço até quw seja valido
+
     //  adicionar o código para atualizar a despesa com os dados recebidos.
 }
 
