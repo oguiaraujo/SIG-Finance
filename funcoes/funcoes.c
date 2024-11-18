@@ -86,3 +86,19 @@ int valida_data(const char *data) {
 
     return 1;  // Data válida
 }
+
+    // Valida o cpf
+    // Adicionar mais condicoes depois
+    int valida_cpf(char *cpf) {
+	int tam;
+	tam = strlen(cpf);
+	if (tam != 11) {
+	    return 0;
+	}
+	for(int i = 0; i < tam; i++) {
+        if (!checar_digito(cpf[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
