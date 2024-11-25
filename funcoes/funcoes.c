@@ -119,3 +119,65 @@ int valida_tel(char *tel) {
     }
     return 1;
 }
+
+// Função que Valida um E-mail
+// Créditos: ChatGPT
+int valida_email(const char *email) {
+    int i = 0;
+    int at_count = 0;
+    int dot_count = 0;
+    int comprimento = strlen(email);
+
+    // Verificar se o e-mail não é vazio
+    if (comprimento == 0) {
+        return 0;
+    }
+
+    // Verificar se o e-mail contém pelo menos um símbolo '@'
+    for (i = 0; i < comprimento; i++) {
+        if (email[i] == '@') {
+            at_count++;
+        }
+        if (email[i] == '.') {
+            dot_count++;
+        }
+    }
+
+    // O e-mail deve conter exatamente um '@' e pelo menos um '.'
+    if (at_count != 1 || dot_count < 1) {
+        return 0;
+    }
+
+    // Divida o e-mail em duas partes: antes e depois do '@'
+    const char *parte_local = email;
+    const char *parte_dominio = strchr(email, '@');
+    if (parte_dominio == NULL || parte_dominio == email || *(parte_dominio + 1) == '\0') {
+        return 0;  // Não há domínio válido após o '@'
+    }
+
+    // Verificar se a parte local (antes do '@') é válida
+    for (i = 0; i < (parte_dominio - parte_local); i++) {
+        if (!isalnum(email[i]) && email[i] != '.' && email[i] != '_' && email[i] != '%' && email[i] != '+' && email[i] != '-') {
+            return 0;  // Caracter inválido na parte local
+        }
+    }
+
+    // Verificar se a parte do domínio (após o '@') contém pelo menos um ponto '.'
+    const char *dominio = parte_dominio + 1;
+    if (strchr(dominio, '.') == NULL) {
+        return 0;  // Não há ponto no domínio
+    }
+
+    // Verificar se o domínio não começa ou termina com ponto
+    if (dominio[0] == '.' || dominio[strlen(dominio) - 1] == '.') {
+        return 0;
+    }
+
+    // Verificar se o domínio tem pelo menos dois caracteres após o último ponto
+    const char *ultimo_ponto = strrchr(dominio, '.');
+    if (ultimo_ponto != NULL && strlen(ultimo_ponto) < 3) {
+        return 0;  // O sufixo do domínio é muito curto
+    }
+
+    return 1;  // E-mail válido
+}
