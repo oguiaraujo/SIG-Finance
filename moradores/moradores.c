@@ -5,6 +5,7 @@
 #include "../funcoes/funcoes.h"
 
 void menu_moradores(void){
+    Moradores morador;
     int opcao;
     do{
         system("clear||cls");
@@ -31,7 +32,7 @@ void menu_moradores(void){
         switch (opcao)
         {
         case 1:
-            cadastrar_morador();
+            cadastrar_morador(&morador);
             break; /*Termina o bloco case. Isso impede que os outros casos sejam executados depois de executar este.*/
         case 2:
             pesquisar_morador();
@@ -55,12 +56,7 @@ void menu_moradores(void){
     } while (opcao != 0);
 }
 
-void cadastrar_morador(void){
-    char nome[50];
-    char dat_nasc[20];
-    char email[50];
-    char tel[17];
-    char cpf[13];
+void cadastrar_morador(Moradores *morador){
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Novo Morador = = = = = = = = = = = = =   ///\n");
@@ -69,9 +65,9 @@ void cadastrar_morador(void){
     // do While que garante um nome
     do {
         printf("///            Nome: ");
-        fgets(nome, sizeof(nome), stdin);
-        remove_enter(nome);
-        if (valida_nome(nome)){
+        fgets(morador->nome, sizeof(morador->nome), stdin);
+        remove_enter(morador->nome);
+        if (valida_nome(morador->nome)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira um NOME válido!\n");
@@ -80,9 +76,9 @@ void cadastrar_morador(void){
 
     do {
         printf("///            Data de Nascimento (DD/MM/AAAA): ");
-        fgets(dat_nasc, sizeof(dat_nasc), stdin);
-        remove_enter(dat_nasc);
-        if (valida_data(dat_nasc)){
+        fgets(morador->dat_nasc, sizeof(morador->dat_nasc), stdin);
+        remove_enter(morador->dat_nasc);
+        if (valida_data(morador->dat_nasc)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira uma DATA válida!\n");
@@ -90,19 +86,19 @@ void cadastrar_morador(void){
     } while (1); // Mantém o laço até quw seja valido
 
     printf("///            E-mail: ");
-    fgets(email, sizeof(email), stdin);
+    fgets(morador->email, sizeof(morador->email), stdin);
     printf("///            Telefone: ");
-    fgets(tel, sizeof(tel), stdin);
+    fgets(morador->tel, sizeof(morador->tel), stdin);
     printf("///            CPF: ");
-    fgets(cpf, sizeof(cpf), stdin);
+    fgets(morador->cpf, sizeof(morador->cpf), stdin);
 
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            Morador cadastrado com sucesso!                              ///\n");
-    printf("///            Nome: %s", nome);
-    printf("///            Data de Nascimento: %s", dat_nasc);
-    printf("///            E-mail: %s", email);
-    printf("///            Tel: %s", tel);
-    printf("///            CPF: %s", cpf);
+    printf("///            Nome: %s", morador->nome);
+    printf("///            Data de Nascimento: %s", morador->dat_nasc);
+    printf("///            E-mail: %s", morador->email);
+    printf("///            Tel: %s", morador->tel);
+    printf("///            CPF: %s", morador->cpf);
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Aguarda o usuário pressionar ENTER antes de voltar ao menu
