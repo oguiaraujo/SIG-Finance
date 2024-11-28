@@ -105,11 +105,17 @@ void cadastrar_morador(Moradores *morador){
 
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            Morador cadastrado com sucesso!                              ///\n");
+    printf("///                                                                         ///\n");
     printf("///            Nome: %s", morador->nome);
+    printf("\n");
     printf("///            Data de Nascimento: %s", morador->dat_nasc);
+    printf("\n");
     printf("///            E-mail: %s", morador->email);
+    printf("\n");
     printf("///            Tel: %s", morador->tel);
+    printf("\n");
     printf("///            CPF: %s", morador->cpf);
+    printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Aguarda o usuário pressionar ENTER antes de voltar ao menu
