@@ -62,7 +62,7 @@ void cadastrar_morador(Moradores *morador){
     printf("///            = = = = = Cadastrar Novo Morador = = = = = = = = = = = = =   ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe os dados do morador:                                            ///\n");
-    // do While que garante um nome
+    // Laço que garante um nome válido
     do {
         printf("///            Nome: ");
         fgets(morador->nome, sizeof(morador->nome), stdin);
@@ -74,6 +74,7 @@ void cadastrar_morador(Moradores *morador){
         }
     } while (1); // Mantém o laço até que seja valido
 
+    // Laço que garante uma data váida
     do {
         printf("///            Data de Nascimento (DD/MM/AAAA): ");
         fgets(morador->dat_nasc, sizeof(morador->dat_nasc), stdin);
@@ -83,10 +84,20 @@ void cadastrar_morador(Moradores *morador){
         } else{
             printf("///            Insira uma DATA válida!\n");
         }
-    } while (1); // Mantém o laço até quw seja valido
+    } while (1); // Mantém o laço até que seja valido
 
-    printf("///            E-mail: ");
-    fgets(morador->email, sizeof(morador->email), stdin);
+    // Laço que garante um email válido
+    do {
+        printf("///            E-mail: ");
+        fgets(morador->email, sizeof(morador->email), stdin);
+        remove_enter(morador->email);
+        if (valida_email(morador->email)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um E-MAIL válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+
     printf("///            Telefone: ");
     fgets(morador->tel, sizeof(morador->tel), stdin);
     printf("///            CPF: ");
