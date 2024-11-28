@@ -60,3 +60,4 @@ metadata/
 
 #Outras linguagens
 .py
+.vscode/settings.json
