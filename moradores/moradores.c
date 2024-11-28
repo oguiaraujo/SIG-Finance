@@ -100,6 +100,19 @@ void cadastrar_morador(Moradores *morador){
 
     printf("///            Telefone: ");
     fgets(morador->tel, sizeof(morador->tel), stdin);
+
+    // Laço que garante um email válido
+    do {
+        printf("///            Telefone: ");
+        fgets(morador->tel, sizeof(morador->tel), stdin);
+        remove_enter(morador->tel);
+        if (valida_tel(morador->tel)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um TELEFONE válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+
     printf("///            CPF: ");
     fgets(morador->cpf, sizeof(morador->cpf), stdin);
 
