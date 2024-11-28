@@ -35,13 +35,13 @@ void menu_moradores(void){
             cadastrar_morador(&morador);
             break; /*Termina o bloco case. Isso impede que os outros casos sejam executados depois de executar este.*/
         case 2:
-            pesquisar_morador();
+            pesquisar_morador(&morador);
             break;
         case 3:
-            atualizar_morador();
+            atualizar_morador(&morador);
             break;
         case 4:
-            excluir_morador();
+            excluir_morador(&morador);
             break;
         case 0:
         
@@ -98,9 +98,6 @@ void cadastrar_morador(Moradores *morador){
         }
     } while (1); // Mantém o laço até que seja valido
 
-    printf("///            Telefone: ");
-    fgets(morador->tel, sizeof(morador->tel), stdin);
-
     // Laço que garante um email válido
     do {
         printf("///            Telefone: ");
@@ -113,8 +110,18 @@ void cadastrar_morador(Moradores *morador){
         }
     } while (1); // Mantém o laço até que seja valido
 
-    printf("///            CPF: ");
-    fgets(morador->cpf, sizeof(morador->cpf), stdin);
+    // Laço que garante um CPF válido
+    do {
+        printf("///            CPF: ");
+        fgets(morador->cpf, sizeof(morador->cpf), stdin);
+        remove_enter(morador->cpf);
+        if (valida_cpf(morador->cpf)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um CPF válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+
 
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            Morador cadastrado com sucesso!                              ///\n");
@@ -128,48 +135,88 @@ void cadastrar_morador(Moradores *morador){
     printf("///            Tel: %s", morador->tel);
     printf("\n");
     printf("///            CPF: %s", morador->cpf);
+    printf("\n");
     printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Aguarda o usuário pressionar ENTER antes de voltar ao menu
 }
 
-void pesquisar_morador(void) {
+void pesquisar_morador(Moradores *morador) {
     char cpf[13];
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Pesquisar Morador = = = = = = = = = = = = =        ///\n");
     printf("///                                                                         ///\n");
-    printf("/// Informe o CPF do morador para pesquisa: ");
-    fgets(cpf, sizeof(cpf), stdin);
+
+    do {
+        printf("/// Informe o CPF do morador para pesquisa: ");
+        fgets(morador->cpf, sizeof(morador->cpf), stdin);
+        remove_enter(morador->cpf);
+        if (valida_cpf(morador->cpf)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um CPF válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+
+    printf("/// O CPF: %s é válido!\n", morador->cpf);
+
     // Código para pesquisar o morador
+    printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Pausa antes de voltar ao menu
 }
 
 
-void atualizar_morador(void) {
+void atualizar_morador(Moradores *morador) {
     char cpf[13];
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Morador = = = = = = = = = = = = =        ///\n");
     printf("///                                                                         ///\n");
-    printf("/// Informe o CPF do morador que deseja atualizar: ");
-    fgets(cpf, sizeof(cpf), stdin);
+
+    do {
+        printf("/// Informe o CPF do morador para pesquisa: ");
+        fgets(morador->cpf, sizeof(morador->cpf), stdin);
+        remove_enter(morador->cpf);
+        if (valida_cpf(morador->cpf)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um CPF válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+
+    printf("/// O CPF: %s é válido!\n", morador->cpf);
+
     // Código para atualizar o morador
+    printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Pausa antes de voltar ao menu
 }
 
 
-void excluir_morador(void) {
+void excluir_morador(Moradores *morador) {
     char cpf[13];
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Excluir Morador = = = = = = = = = = = = =          ///\n");
     printf("///                                                                         ///\n");
-    printf("/// Informe o CPF do morador que deseja excluir: ");
-    fgets(cpf, sizeof(cpf), stdin);
+
+    do {
+        printf("/// Informe o CPF do morador para pesquisa: ");
+        fgets(morador->cpf, sizeof(morador->cpf), stdin);
+        remove_enter(morador->cpf);
+        if (valida_cpf(morador->cpf)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um CPF válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+
+    printf("/// O CPF: %s é válido!\n", morador->cpf);
+
     // Código para excluir o morador
+    printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Pausa antes de voltar ao menu
