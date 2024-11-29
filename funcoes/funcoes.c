@@ -119,3 +119,38 @@ int valida_tel(char *tel) {
     }
     return 1;
 }
+
+// Função que valida um E-mail
+// Créditos: ChatGPT
+int valida_email(const char *email) {
+    int at_pos = -1;  // Posição do '@'
+    int dot_pos = -1; // Posição do último '.'
+    int len = strlen(email);
+
+    // Um e-mail válido deve ter pelo menos 5 caracteres: "a@b.c"
+    if (len < 5) return 0;
+
+    for (int i = 0; i < len; i++) {
+        char c = email[i];
+
+        if (c == '@') {
+            // Já encontrou um '@' anteriormente? Inválido
+            if (at_pos != -1) return 0;
+            at_pos = i;
+        } else if (c == '.') {
+            // Registra a posição do último ponto
+            dot_pos = i;
+        } else if (!isalnum(c) && c != '_' && c != '-' && c != '+') {
+            // Permite apenas letras, números, '-', '_', e '+'
+            return 0;
+        }
+    }
+
+    // Verificações finais:
+    // - '@' deve existir e não ser o primeiro ou o último caractere
+    // - '.' deve existir depois de '@' e não ser o último caractere
+    if (at_pos == -1 || at_pos == 0 || at_pos == len - 1) return 0;
+    if (dot_pos == -1 || dot_pos < at_pos || dot_pos == len - 1) return 0;
+
+    return 1; // E-mail válido
+}
