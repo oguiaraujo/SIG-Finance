@@ -8,3 +8,4 @@ int valida_data(const char *data);
 int valida_cpf(char *cpf);
 int valida_tel(char *tel);
 int valida_email(const char *email);
+int valida_preco(const char *preco);
