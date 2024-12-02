@@ -119,3 +119,65 @@ int valida_tel(char *tel) {
     }
     return 1;
 }
+
+// Função que valida um E-mail
+// Créditos: ChatGPT
+int valida_email(const char *email) {
+    int at_pos = -1;  // Posição do '@'
+    int dot_pos = -1; // Posição do último '.'
+    int len = strlen(email);
+
+    // Um e-mail válido deve ter pelo menos 5 caracteres: "a@b.c"
+    if (len < 5) return 0;
+
+    for (int i = 0; i < len; i++) {
+        char c = email[i];
+
+        if (c == '@') {
+            // Já encontrou um '@' anteriormente? Inválido
+            if (at_pos != -1) return 0;
+            at_pos = i;
+        } else if (c == '.') {
+            // Registra a posição do último ponto
+            dot_pos = i;
+        } else if (!isalnum(c) && c != '_' && c != '-' && c != '+') {
+            // Permite apenas letras, números, '-', '_', e '+'
+            return 0;
+        }
+    }
+
+    // Verificações finais:
+    // - '@' deve existir e não ser o primeiro ou o último caractere
+    // - '.' deve existir depois de '@' e não ser o último caractere
+    if (at_pos == -1 || at_pos == 0 || at_pos == len - 1) return 0;
+    if (dot_pos == -1 || dot_pos < at_pos || dot_pos == len - 1) return 0;
+
+    return 1; // E-mail válido
+}
+
+// Função para validar um preço
+int valida_preco(const char *preco) {
+    int tem_digito = 0;    // Verifica se há pelo menos um dígito
+    int tem_ponto = 0;     // Verifica se o separador decimal foi usado corretamente
+    int tamanho = strlen(preco);
+
+    if (tamanho == 0) {
+        return 0; // String vazia é inválida
+    }
+
+    for (int i = 0; i < tamanho; i++) {
+        if (isdigit(preco[i])) {
+            tem_digito = 1;
+        } else if (preco[i] == '.') {
+            if (tem_ponto) {
+                return 0; // Mais de um ponto decimal é inválido
+            }
+            tem_ponto = 1;
+        } else {
+            return 0; // Qualquer caractere que não seja dígito ou ponto é inválido
+        }
+    }
+
+    // Um preço válido precisa ter pelo menos um dígito
+    return tem_digito;
+}
