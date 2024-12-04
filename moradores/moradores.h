@@ -7,6 +7,7 @@ struct moradores {
     char email[50];
     char tel[17];
     char cpf[13];
+    char status;
 };
 
 void menu_moradores(void);
