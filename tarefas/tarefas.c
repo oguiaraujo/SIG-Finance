@@ -90,8 +90,8 @@ void pesquisar_tarefa()
 void atualizar_tarefa()
 {
     char id[5];
-    char nova_descricao[100];
-    char novo_prazo[20];
+    char descricao[100];
+    char prazo[20];
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Tarefa = = = = = = = = = = = = = = = =    ///\n");
@@ -99,13 +99,13 @@ void atualizar_tarefa()
     printf("/// Informe o ID da tarefa que deseja atualizar:                            ///\n");
     fgets(id, sizeof(id), stdin);
     printf("/// Nova descrição:                                                         ///\n");
-    fgets(nova_descricao, sizeof(nova_descricao), stdin);
+    fgets(descricao, sizeof(descricao), stdin);
 
     do {
         printf("/// Novo prazo (DD/MM/AAAA):                                                ///\n");
-        fgets(novo_prazo, sizeof(novo_prazo), stdin);
-        remove_enter(novo_prazo);
-        if (valida_data(novo_prazo)){
+        fgets(prazo, sizeof(prazo), stdin);
+        remove_enter(prazo);
+        if (valida_data(prazo)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira uma DATA válida!\n");
