@@ -5,6 +5,7 @@
 #include "../funcoes/funcoes.h"
 
 void menu_tarefas(){
+    Tarefas tarefa;
     int opcao;
     do{   
         system("clear||cls");
@@ -24,16 +25,16 @@ void menu_tarefas(){
         switch (opcao)
         {
         case 1:
-            cadastrar_tarefa();
+            cadastrar_tarefa(&tarefa);
             break;
         case 2:
-            pesquisar_tarefa();
+            pesquisar_tarefa(&tarefa);
             break;
         case 3:
-            atualizar_tarefa();
+            atualizar_tarefa(&tarefa);
             break;
         case 4:
-            excluir_tarefa();
+            excluir_tarefa(&tarefa);
             break;
          case 0:
         
@@ -49,25 +50,21 @@ void menu_tarefas(){
     } while (opcao != 0);
 }
 
-void cadastrar_tarefa()
+void cadastrar_tarefa(Tarefas *tarefa)
 {
-    char descricao[100];
-    char prazo[20];
-    char id[5];
-
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Tarefa = = = = = = = = = = = = = = = =    ///\n");
     printf("///                                                                         ///\n");
     printf("/// ID da tarefa:                                                           ///\n");
-    fgets(id, sizeof(id), stdin);
+    fgets(tarefa->id, sizeof(tarefa->id), stdin);
     printf("/// Descrição da tarefa:                                                    ///\n");
-    fgets(descricao, sizeof(descricao), stdin);
+    fgets(tarefa->descricao, sizeof(tarefa->descricao), stdin);
 
     do {
         printf("/// Prazo da tarefa (DD/MM/AAAA):                                           ///\n");
-        fgets(prazo, sizeof(prazo), stdin);
-        remove_enter(prazo);
-        if (valida_data(prazo)){
+        fgets(tarefa->prazo, sizeof(tarefa->prazo), stdin);
+        remove_enter(tarefa->prazo);
+        if (valida_data(tarefa->prazo)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira uma DATA válida!\n");
@@ -75,7 +72,7 @@ void cadastrar_tarefa()
     } while (1); // Mantém o laço até quw seja valido
 }
 
-void pesquisar_tarefa()
+void pesquisar_tarefa(Tarefas *tarefa)
 {
     char id[5];
 
@@ -83,29 +80,27 @@ void pesquisar_tarefa()
     printf("///            = = = = = Pesquisar Tarefa = = = = = = = = = = = = = = = =    ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe o ID da tarefa:                                                 ///\n");
-    fgets(id, sizeof(id), stdin);
+    fgets(tarefa->id, sizeof(tarefa->id), stdin);
     getchar();  // Aguarda o usuário pressionar Enter
 }
 
-void atualizar_tarefa()
+void atualizar_tarefa(Tarefas *tarefa)
 {
     char id[5];
-    char descricao[100];
-    char prazo[20];
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Tarefa = = = = = = = = = = = = = = = =    ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe o ID da tarefa que deseja atualizar:                            ///\n");
-    fgets(id, sizeof(id), stdin);
+    fgets(tarefa->id, sizeof(tarefa->id), stdin);
     printf("/// Nova descrição:                                                         ///\n");
-    fgets(descricao, sizeof(descricao), stdin);
+    fgets(tarefa->descricao, sizeof(tarefa->descricao), stdin);
 
     do {
         printf("/// Novo prazo (DD/MM/AAAA):                                                ///\n");
-        fgets(prazo, sizeof(prazo), stdin);
-        remove_enter(prazo);
-        if (valida_data(prazo)){
+        fgets(tarefa->prazo, sizeof(tarefa->prazo), stdin);
+        remove_enter(tarefa->prazo);
+        if (valida_data(tarefa->prazo)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira uma DATA válida!\n");
@@ -113,7 +108,7 @@ void atualizar_tarefa()
     } while (1); // Mantém o laço até quw seja valido
 }
 
-void excluir_tarefa()
+void excluir_tarefa(Tarefas *tarefa)
 {
     char id[5];
 
@@ -121,6 +116,6 @@ void excluir_tarefa()
     printf("///            = = = = = Excluir Tarefa = = = = = = = = = = = = = = = =      ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe o ID da tarefa que deseja excluir:                              ///\n");
-    fgets(id, sizeof(id), stdin);
+    fgets(tarefa->id, sizeof(tarefa->id), stdin);
     getchar();  // Aguarda o usuário pressionar Enter
 }
