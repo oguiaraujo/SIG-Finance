@@ -5,6 +5,7 @@
 #include "../funcoes/funcoes.h"
 
 void menu_despesas(void){
+    Despesas despesa;
     int opcao;
     do{
         system("clear||cls");
@@ -24,16 +25,16 @@ void menu_despesas(void){
         switch (opcao)
         {
         case 1:
-            cadastrar_despesa();
+            cadastrar_despesa(&despesa);
             break;
         case 2:
-            pesquisar_despesa();
+            pesquisar_despesa(&despesa);
             break;
         case 3:
-            atualizar_despesa();
+            atualizar_despesa(&despesa);
             break;
         case 4:
-            excluir_despesa();
+            excluir_despesa(&despesa);
             break;
         case 0:
         
@@ -48,27 +49,23 @@ void menu_despesas(void){
     } while (opcao != 0);
 }
 
-void cadastrar_despesa()
+void cadastrar_despesa(Despesas *despesa)
 {
-    char descricao[200];
-    char valor[10];
-    char data[12];
-    char id[5];
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Nova Despesa = = = = = = = = = = = = =   ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe os dados da despesa:                                            ///\n");
     printf("///            Descrição: ");
-    fgets(descricao, sizeof(descricao), stdin);
+    fgets(despesa->descricao, sizeof(despesa->descricao), stdin);
     printf("///            Valor: ");
-    fgets(valor, sizeof(valor), stdin);
+    fgets(despesa->valor, sizeof(despesa->valor), stdin);
 
     do {
         printf("///            Data (DD/MM/AAAA): ");
-        fgets(data, sizeof(data), stdin);
-        remove_enter(data);
-        if (valida_data(data)){
+        fgets(despesa->data, sizeof(despesa->data), stdin);
+        remove_enter(despesa->data);
+        if (valida_data(despesa->data)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira uma DATA válida!\n");
@@ -76,19 +73,19 @@ void cadastrar_despesa()
     } while (1); // Mantém o laço até quw seja valido
 
     printf("///            id: ");
-    fgets(id, sizeof(id), stdin);
+    fgets(despesa->id, sizeof(despesa->id), stdin);
 
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            Despesa cadastrada com sucesso!                              ///\n");
-    printf("///            Descrição: %s", descricao);
-    printf("///            Valor: %s", valor);
-    printf("///            Data: %s", data);
-    printf("///            Data: %s", id);
+    printf("///            Descrição: %s", despesa->data);
+    printf("///            Valor: %s", despesa->valor);
+    printf("///            Data: %s", despesa->data);
+    printf("///            Data: %s", despesa->id);
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     getchar();  // Aguarda o usuário pressionar Enter
 }
 
-void pesquisar_despesa()
+void pesquisar_despesa(Despesas *despesa)
 {
     char id[5];
 
@@ -96,15 +93,12 @@ void pesquisar_despesa()
     printf("///            = = = = = Pesquisar Despesa      = = = = = = = = = = = = = = ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe o id da despesa:                                                ///\n");
-    fgets(id, sizeof(id), stdin);
+    fgets(despesa->id, sizeof(despesa->id), stdin);
     getchar();  // Aguarda o usuário pressionar Enter
 }
 
-void atualizar_despesa() {
+void atualizar_despesa(Despesas *despesa) {
     char id[5];
-    char descricao[200];
-    char valor[10];
-    char data[12];
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Despesa      = = = = = = = = = = = = = = ///\n");
@@ -113,15 +107,15 @@ void atualizar_despesa() {
     fgets(id, sizeof(id), stdin);
     getchar();  // Aguarda o usuário pressionar Enter
     printf("/// Informe a descrição da despesa:                                        ///\n");
-    fgets(descricao, sizeof(descricao), stdin);
+    fgets(despesa->descricao, sizeof(despesa->descricao), stdin);
     printf("/// Informe o valor da despesa:                                            ///\n");
-    fgets(valor, sizeof(valor), stdin);
+    fgets(despesa->valor, sizeof(despesa->valor), stdin);
 
     do {
         printf("/// Informe a data da despesa (DD/MM/AAAA):                               ///\n");
-        fgets(data, sizeof(data), stdin);
-        remove_enter(data);
-        if (valida_data(data)){
+        fgets(despesa->data, sizeof(despesa->data), stdin);
+        remove_enter(despesa->data);
+        if (valida_data(despesa->data)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira uma DATA válida!\n");
@@ -131,7 +125,7 @@ void atualizar_despesa() {
     //  adicionar o código para atualizar a despesa com os dados recebidos.
 }
 
-void excluir_despesa()
+void excluir_despesa(Despesas *despesa)
 {
     char id[5];
     
@@ -139,6 +133,6 @@ void excluir_despesa()
     printf("///            = = = = = Excluir Despesa        = = = = = = = = = = = = = = ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe o id da despesa:                                                ///\n");
-    fgets(id, sizeof(id), stdin);
+    fgets(despesa->id, sizeof(despesa->id), stdin);
     getchar();  // Aguarda o usuário pressionar Enter
 }
