@@ -11,7 +11,8 @@ struct moradores {
 };
 
 void menu_moradores(void);
-void cadastrar_morador(Moradores *morador);
+Moradores* cadastrar_morador(void);
 void pesquisar_morador(Moradores *morador);
 void atualizar_morador(Moradores *morador);
 void excluir_morador(Moradores *morador);
+void salva_morador(Moradores* morador);

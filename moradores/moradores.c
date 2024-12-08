@@ -32,7 +32,7 @@ void menu_moradores(void){
         switch (opcao)
         {
         case 1:
-            cadastrar_morador(&morador);
+            cadastrar_morador();
             break; /*Termina o bloco case. Isso impede que os outros casos sejam executados depois de executar este.*/
         case 2:
             pesquisar_morador(&morador);
@@ -56,7 +56,14 @@ void menu_moradores(void){
     } while (opcao != 0);
 }
 
-void cadastrar_morador(Moradores *morador){
+Moradores* cadastrar_morador(void){
+
+    Moradores* morador;
+    morador = (Moradores*) malloc(sizeof(Moradores));
+    if (morador == NULL) {
+        printf("Erro ao alocar memória para o morador.\n");
+        exit(1);
+    }
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Novo Morador = = = = = = = = = = = = =   ///\n");
@@ -140,6 +147,9 @@ void cadastrar_morador(Moradores *morador){
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Aguarda o usuário pressionar ENTER antes de voltar ao menu
+
+    salva_morador(morador);
+    return morador;
 }
 
 void pesquisar_morador(Moradores *morador) {
@@ -220,4 +230,16 @@ void excluir_morador(Moradores *morador) {
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Pausa antes de voltar ao menu
+}
+
+void salva_morador(Moradores* morador) {
+    FILE* fp;
+    fp = fopen("moradores.dat", "ab");
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+    }
+    fwrite(morador, sizeof(Moradores), 1, fp);
+    fclose(fp);
 }
