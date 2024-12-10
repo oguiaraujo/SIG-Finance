@@ -15,5 +15,5 @@ Moradores* cadastrar_morador(void);
 Moradores* pesquisar_morador(void);
 void exibir_morador(const Moradores* morador);
 void atualizar_morador(void);
-void excluir_morador(Moradores *morador);
+void excluir_morador(void);
 void salva_morador(Moradores* morador);
