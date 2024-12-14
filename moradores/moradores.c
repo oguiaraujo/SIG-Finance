@@ -5,7 +5,6 @@
 #include "../funcoes/funcoes.h"
 
 void menu_moradores(void){
-    Moradores* morador;
     int opcao;
     do{
         system("clear||cls");
