@@ -9,7 +9,7 @@ struct despesas {
 };
 
 void menu_despesas(void);
-void cadastrar_despesa(Despesas *despesa);
+Despesas* cadastrar_despesa(void);
 void pesquisar_despesa(Despesas *despesa);
 void atualizar_despesa(Despesas *despesa);
 void excluir_despesa(Despesas *despesa);

@@ -25,7 +25,7 @@ void menu_despesas(void){
         switch (opcao)
         {
         case 1:
-            cadastrar_despesa(&despesa);
+            cadastrar_despesa();
             break;
         case 2:
             pesquisar_despesa(&despesa);
@@ -49,17 +49,34 @@ void menu_despesas(void){
     } while (opcao != 0);
 }
 
-void cadastrar_despesa(Despesas *despesa)
-{
+Despesas* cadastrar_despesa(void) {
+
+    Despesas* despesa;
+    despesa = (Despesas*) malloc(sizeof(Despesas));
+    if (despesa == NULL) {
+        printf("Erro ao alocar memória para o morador.\n");
+        exit(1);
+    }
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Nova Despesa = = = = = = = = = = = = =   ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe os dados da despesa:                                            ///\n");
+    
     printf("///            Descrição: ");
     fgets(despesa->descricao, sizeof(despesa->descricao), stdin);
-    printf("///            Valor: ");
-    fgets(despesa->valor, sizeof(despesa->valor), stdin);
+    remove_enter(despesa->descricao);
+
+    do {
+        printf("///            Valor: ");
+        fgets(despesa->valor, sizeof(despesa->valor), stdin);
+        remove_enter(despesa->valor);
+        if (valida_preco(despesa->valor)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira uma VALOR válido!\n");
+        }
+    } while (1); // Mantém o laço até quw seja valido
 
     do {
         printf("///            Data (DD/MM/AAAA): ");
@@ -72,17 +89,25 @@ void cadastrar_despesa(Despesas *despesa)
         }
     } while (1); // Mantém o laço até quw seja valido
 
-    printf("///            id: ");
+    printf("///            id : ");
     fgets(despesa->id, sizeof(despesa->id), stdin);
 
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            Despesa cadastrada com sucesso!                              ///\n");
-    printf("///            Descrição: %s", despesa->data);
+    printf("///            Descrição: %s", despesa->descricao);
+    printf("\n");
     printf("///            Valor: %s", despesa->valor);
+    printf("\n");
     printf("///            Data: %s", despesa->data);
+    printf("\n");
     printf("///            Data: %s", despesa->id);
+    printf("\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     getchar();  // Aguarda o usuário pressionar Enter
+
+    salva_despesa(despesa);
+    return despesa;
+
 }
 
 void pesquisar_despesa(Despesas *despesa)
@@ -135,4 +160,16 @@ void excluir_despesa(Despesas *despesa)
     printf("/// Informe o id da despesa:                                                ///\n");
     fgets(despesa->id, sizeof(despesa->id), stdin);
     getchar();  // Aguarda o usuário pressionar Enter
+}
+
+void salva_despesa(Despesas* despesa) {
+    FILE* fp;
+    fp = fopen("despesas.dat", "ab");
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+    }
+    fwrite(despesa, sizeof(Despesas), 1, fp);
+    fclose(fp);
 }
