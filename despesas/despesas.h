@@ -11,5 +11,5 @@ struct despesas {
 void menu_despesas(void);
 Despesas* cadastrar_despesa(void);
 Despesas* pesquisar_despesa(void);
-void atualizar_despesa(Despesas *despesa);
+void atualizar_despesa(void);
 void excluir_despesa(Despesas *despesa);
