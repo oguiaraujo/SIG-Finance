@@ -20,6 +20,7 @@ void remove_enter(char *str){
 ////////////////
 
 /* funçao de validação de digito*/
+// Créditos: Tomé
 int checar_digito(int c){
 	  if (c >= '0' && c <= '9') {
 		  return 1;
@@ -156,6 +157,7 @@ int valida_email(const char *email) {
 }
 
 // Função para validar um preço
+// Créditos: ChatGPT
 int valida_preco(const char *preco) {
     int tem_digito = 0;    // Verifica se há pelo menos um dígito
     int tem_ponto = 0;     // Verifica se o separador decimal foi usado corretamente

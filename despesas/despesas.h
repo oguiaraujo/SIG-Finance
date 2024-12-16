@@ -5,11 +5,11 @@ struct despesas {
     char valor[10];
     char data[12];
     char id[5];
-
+    char status;
 };
 
 void menu_despesas(void);
-void cadastrar_despesa(Despesas *despesa);
-void pesquisar_despesa(Despesas *despesa);
-void atualizar_despesa(Despesas *despesa);
-void excluir_despesa(Despesas *despesa);
+Despesas* cadastrar_despesa(void);
+Despesas* pesquisar_despesa(void);
+void atualizar_despesa(void);
+void excluir_despesa(void);

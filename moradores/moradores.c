@@ -5,7 +5,6 @@
 #include "../funcoes/funcoes.h"
 
 void menu_moradores(void){
-    Moradores morador;
     int opcao;
     do{
         system("clear||cls");
@@ -32,16 +31,16 @@ void menu_moradores(void){
         switch (opcao)
         {
         case 1:
-            cadastrar_morador(&morador);
+            cadastrar_morador();
             break; /*Termina o bloco case. Isso impede que os outros casos sejam executados depois de executar este.*/
         case 2:
-            pesquisar_morador(&morador);
+            pesquisar_morador();
             break;
         case 3:
-            atualizar_morador(&morador);
+            atualizar_morador();
             break;
         case 4:
-            excluir_morador(&morador);
+            excluir_morador();
             break;
         case 0:
         
@@ -56,7 +55,14 @@ void menu_moradores(void){
     } while (opcao != 0);
 }
 
-void cadastrar_morador(Moradores *morador){
+Moradores* cadastrar_morador(void){
+
+    Moradores* morador;
+    morador = (Moradores*) malloc(sizeof(Moradores));
+    if (morador == NULL) {
+        printf("Erro ao alocar memória para o morador.\n");
+        exit(1);
+    }
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Novo Morador = = = = = = = = = = = = =   ///\n");
@@ -122,6 +128,7 @@ void cadastrar_morador(Moradores *morador){
         }
     } while (1); // Mantém o laço até que seja valido
 
+    morador->status = 'a';
 
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            Morador cadastrado com sucesso!                              ///\n");
@@ -140,84 +147,260 @@ void cadastrar_morador(Moradores *morador){
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Aguarda o usuário pressionar ENTER antes de voltar ao menu
+
+    salva_morador(morador);
+    return morador;
 }
 
-void pesquisar_morador(Moradores *morador) {
-    char cpf[13];
+Moradores* pesquisar_morador(void) {
+    FILE* fp;
+    Moradores* morador;
+    char cpf_informado[13];
+
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Pesquisar Morador = = = = = = = = = = = = =        ///\n");
     printf("///                                                                         ///\n");
 
     do {
         printf("/// Informe o CPF do morador para pesquisa: ");
-        fgets(morador->cpf, sizeof(morador->cpf), stdin);
-        remove_enter(morador->cpf);
-        if (valida_cpf(morador->cpf)){
+        fgets(cpf_informado, sizeof(cpf_informado), stdin);
+        remove_enter(cpf_informado);
+        if (valida_cpf(cpf_informado)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira um CPF válido!\n");
         }
     } while (1); // Mantém o laço até que seja valido
 
-    printf("/// O CPF: %s é válido!\n", morador->cpf);
+    morador = (Moradores*) malloc(sizeof(Moradores)); // Aloca memória dinâmica
+    if (morador == NULL) {
+        printf("Erro ao alocar memória para o morador.\n");
+        exit(1);
+    }
 
-    // Código para pesquisar o morador
+    fp = fopen("moradores.dat", "rb"); // Abre arquivo no modo de leitura
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        free(morador);
+        return NULL;
+    }
+
+    while (fread(morador, sizeof(Moradores), 1, fp)) {
+        if ((strcmp(morador->cpf, cpf_informado) == 0) && (morador->status != 'i')) {  // Compara strings e verifica o status
+            fclose(fp);
+            exibir_morador(morador);
+            return morador;  // Retorna o morador encontrado
+        } else {
+            printf("///            CPF não encontrado!\n");
+            break;
+        }
+    }
+
     printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Pausa antes de voltar ao menu
+
+    fclose(fp);
+    free(morador);
+    return NULL;
+}
+
+void exibir_morador(const Moradores* morador) {
+    if (morador == NULL) {
+        printf("/// Nenhum morador encontrado.\n");
+        return;
+    }
+
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///            = = = = = Dados do Morador = = = = = = = = = = = = =         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            Nome: %s\n", morador->nome);
+    printf("///            Data de Nascimento: %s\n", morador->dat_nasc);
+    printf("///            E-mail: %s\n", morador->email);
+    printf("///            Telefone: %s\n", morador->tel);
+    printf("///            CPF: %s\n", morador->cpf);
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
 }
 
 
-void atualizar_morador(Moradores *morador) {
-    char cpf[13];
+void atualizar_morador(void) {
+    FILE* fp;
+    Moradores* morador;
+    char cpf_informado[13];
+
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Morador = = = = = = = = = = = = =        ///\n");
     printf("///                                                                         ///\n");
 
     do {
-        printf("/// Informe o CPF do morador para pesquisa: ");
-        fgets(morador->cpf, sizeof(morador->cpf), stdin);
-        remove_enter(morador->cpf);
-        if (valida_cpf(morador->cpf)){
+        printf("/// Informe o CPF do morador para atualizar: ");
+        fgets(cpf_informado, sizeof(cpf_informado), stdin);
+        remove_enter(cpf_informado);
+        if (valida_cpf(cpf_informado)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira um CPF válido!\n");
         }
     } while (1); // Mantém o laço até que seja valido
 
-    printf("/// O CPF: %s é válido!\n", morador->cpf);
+    morador = (Moradores*) malloc(sizeof(Moradores)); // Aloca memória dinâmica
+    if (morador == NULL) {
+        printf("Erro ao alocar memória para o morador.\n");
+        exit(1);
+    }
 
-    // Código para atualizar o morador
+    fp = fopen("moradores.dat", "r+b"); // Abre arquivo no modo de leitura
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        free(morador);
+        exit(1);
+    }
+
+    while (fread(morador, sizeof(Moradores), 1, fp)) {
+        if ((strcmp(morador->cpf, cpf_informado) == 0) && (morador->status != 'i')) {  // Compara strings e verifica o status
+            exibir_morador(morador);
+            // Laço que garante um nome válido
+            do {
+                printf("///            Nome: ");
+                fgets(morador->nome, sizeof(morador->nome), stdin);
+                remove_enter(morador->nome);
+                if (valida_nome(morador->nome)){
+                    break; // Sai do laço apenas se for válido
+                } else{
+                    printf("///            Insira um NOME válido!\n");
+                }
+            } while (1); // Mantém o laço até que seja valido
+
+            // Laço que garante uma data váida
+            do {
+                printf("///            Data de Nascimento (DD/MM/AAAA): ");
+                fgets(morador->dat_nasc, sizeof(morador->dat_nasc), stdin);
+                remove_enter(morador->dat_nasc);
+                if (valida_data(morador->dat_nasc)){
+                    break; // Sai do laço apenas se for válido
+                } else{
+                    printf("///            Insira uma DATA válida!\n");
+                }
+            } while (1); // Mantém o laço até que seja valido
+
+            // Laço que garante um email válido
+            do {
+                printf("///            E-mail: ");
+                fgets(morador->email, sizeof(morador->email), stdin);
+                remove_enter(morador->email);
+                if (valida_email(morador->email)){
+                    break; // Sai do laço apenas se for válido
+                } else{
+                    printf("///            Insira um E-MAIL válido!\n");
+                }
+            } while (1); // Mantém o laço até que seja valido
+
+            // Laço que garante um email válido
+            do {
+                printf("///            Telefone: ");
+                fgets(morador->tel, sizeof(morador->tel), stdin);
+                remove_enter(morador->tel);
+                if (valida_tel(morador->tel)){
+                    break; // Sai do laço apenas se for válido
+                } else{
+                    printf("///            Insira um TELEFONE válido!\n");
+                }
+            } while (1); // Mantém o laço até que seja valido
+
+            fseek(fp, -sizeof(Moradores), SEEK_CUR);
+            fwrite(morador, sizeof(Moradores), 1, fp);
+
+            printf("///            Dados atualizados com sucesso!\n");
+            break;
+
+        } else {
+            printf("///            CPF não encontrado!\n");
+            break;
+        }
+    }
+
     printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Pausa antes de voltar ao menu
+
+    fclose(fp);
+    free(morador);
 }
 
 
-void excluir_morador(Moradores *morador) {
-    char cpf[13];
+void excluir_morador(void) {
+    FILE* fp;
+    Moradores* morador;
+    char cpf_informado[13];
+
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Excluir Morador = = = = = = = = = = = = =          ///\n");
     printf("///                                                                         ///\n");
 
     do {
-        printf("/// Informe o CPF do morador para pesquisa: ");
-        fgets(morador->cpf, sizeof(morador->cpf), stdin);
-        remove_enter(morador->cpf);
-        if (valida_cpf(morador->cpf)){
+        printf("/// Informe o CPF do morador para atualizar: ");
+        fgets(cpf_informado, sizeof(cpf_informado), stdin);
+        remove_enter(cpf_informado);
+        if (valida_cpf(cpf_informado)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira um CPF válido!\n");
         }
     } while (1); // Mantém o laço até que seja valido
 
-    printf("/// O CPF: %s é válido!\n", morador->cpf);
+    morador = (Moradores*) malloc(sizeof(Moradores)); // Aloca memória dinâmica
+    if (morador == NULL) {
+        printf("Erro ao alocar memória para o morador.\n");
+        exit(1);
+    }
 
-    // Código para excluir o morador
+    fp = fopen("moradores.dat", "r+b"); // Abre arquivo no modo de leitura
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        free(morador);
+        exit(1);
+    }
+
+    while (fread(morador, sizeof(Moradores), 1, fp)) {
+        if ((strcmp(morador->cpf, cpf_informado) == 0) && (morador->status != 'i')) {  // Compara strings e verifica o status
+            exibir_morador(morador);
+            morador->status = 'i';
+            fseek(fp, -sizeof(Moradores), SEEK_CUR);
+            fwrite(morador, sizeof(Moradores), 1, fp);
+
+            printf("///            Morador removido com sucesso!\n");
+            break;
+
+        } else {
+            printf("///            CPF não encontrado!\n");
+            break;
+        }
+    }
+    
     printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Pausa antes de voltar ao menu
+
+    fclose(fp);
+    free(morador);
+}
+
+// Função que Salva os dados em arquivo binário
+// Adaptado do Professor Flavius Gorgonio
+void salva_morador(Moradores* morador) {
+    FILE* fp;
+    fp = fopen("moradores.dat", "ab");
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+    }
+    fwrite(morador, sizeof(Moradores), 1, fp);
+    fclose(fp);
 }

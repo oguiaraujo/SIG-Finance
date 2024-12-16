@@ -7,10 +7,13 @@ struct moradores {
     char email[50];
     char tel[17];
     char cpf[13];
+    char status;
 };
 
 void menu_moradores(void);
-void cadastrar_morador(Moradores *morador);
-void pesquisar_morador(Moradores *morador);
-void atualizar_morador(Moradores *morador);
-void excluir_morador(Moradores *morador);
+Moradores* cadastrar_morador(void);
+Moradores* pesquisar_morador(void);
+void exibir_morador(const Moradores* morador);
+void atualizar_morador(void);
+void excluir_morador(void);
+void salva_morador(Moradores* morador);
