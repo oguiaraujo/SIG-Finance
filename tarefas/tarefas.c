@@ -110,6 +110,25 @@ void pesquisar_tarefa(Tarefas *tarefa)
     getchar();  // Aguarda o usuário pressionar Enter
 }
 
+void exibir_tarefa(const Tarefas* tarefa) {
+    if (tarefa == NULL) {
+        printf("/// Nenhuma tarefa encontrada.\n");
+        return;
+    }
+
+    printf("\n////////////////////////////////////////////////////////////////////////////////\n");
+    printf("///          = = = = = Dados da tarefa = = = = = = = = = = = = =               ///\n");
+    printf("///                                                                            ///\n");
+    printf("///          ID: %s\n", tarefa->id);
+    printf("///          Descrição: %s\n", tarefa->descricao);
+    printf("///          Prazo: %s\n", tarefa->prazo);
+    printf("///                                                                            ///\n");
+    printf("\n////////////////////////////////////////////////////////////////////////////////\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+
+}
+
 void atualizar_tarefa(Tarefas *tarefa)
 {
     char id[5];
