@@ -10,7 +10,7 @@ struct tarefas{
 
 void menu_tarefas(void);
 Tarefas* cadastrar_tarefa(void);
-void pesquisar_tarefa(Tarefas *tarefa);
+Tarefas* pesquisar_tarefa(void);
 void exibir_tarefa(const Tarefas* tarefa);
 void atualizar_tarefa(Tarefas *tarefa);
 void excluir_tarefa(Tarefas *tarefa);
