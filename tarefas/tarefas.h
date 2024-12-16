@@ -12,5 +12,5 @@ void menu_tarefas(void);
 Tarefas* cadastrar_tarefa(void);
 Tarefas* pesquisar_tarefa(void);
 void exibir_tarefa(const Tarefas* tarefa);
-void atualizar_tarefa(Tarefas *tarefa);
+void atualizar_tarefa(void);
 void excluir_tarefa(Tarefas *tarefa);
