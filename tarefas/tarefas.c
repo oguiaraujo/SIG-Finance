@@ -31,7 +31,7 @@ void menu_tarefas(){
             pesquisar_tarefa();
             break;
         case 3:
-            atualizar_tarefa(&tarefa);
+            atualizar_tarefa();
             break;
         case 4:
             excluir_tarefa(&tarefa);
@@ -164,8 +164,9 @@ void exibir_tarefa(const Tarefas* tarefa) {
 
 }
 
-void atualizar_tarefa(Tarefas *tarefa)
-{
+void atualizar_tarefa(void) {
+    FILE* fp;
+    Tarefas* tarefa;
     char id[5];
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
@@ -186,6 +187,60 @@ void atualizar_tarefa(Tarefas *tarefa)
             printf("///            Insira uma DATA válida!\n");
         }
     } while (1); // Mantém o laço até quw seja valido
+
+    tarefa = (Tarefas*) malloc(sizeof(Tarefas));
+    if (tarefa == NULL) {
+        printf("Erro ao alocar memória para a tarefa\n");
+        exit(1);
+    }
+
+    fp = fopen("tarefas.dat", "r+b");
+    if (fp == NULL) {
+        printf("Erro na gravação do arquivo!\n");
+        free(tarefa);
+        exit(1);
+    }
+    
+    while (fread(tarefa, sizeof(Tarefas), 1, fp)) {
+        if ((strcmp(tarefa->id, id)== 0) && (tarefa->status != '1')) {
+            exibir_tarefa(tarefa);
+            printf("///        ID:  ");
+            fgets(tarefa->id, sizeof(tarefa->id), stdin);
+
+            printf("///        Descrição:  ");
+            fgets(tarefa->descricao, sizeof(tarefa->descricao), stdin);
+
+            do {
+                printf("/// Prazo da tarefa (DD/MM/AAAA): ");
+                fgets(tarefa->prazo, sizeof(tarefa->prazo), stdin);
+                remove_enter(tarefa->prazo);
+                if(valida_data(tarefa->prazo)){
+                    break;
+                } else{
+                    printf("///      Insira uma DATA válida!\n");
+                }
+            } while(1);
+
+            fseek(fp, -sizeof(Tarefas), SEEK_CUR);
+            fwrite(tarefa, sizeof(Tarefas), 1, fp);
+
+            printf("///              Dados atualizados com sucesso!\n");
+            break;
+
+        } else{
+            printf("///              ID não encontrado!\n");
+            break;
+        } 
+    }
+
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+
+    fclose(fp);
+    free(tarefa);
+
 }
 
 void excluir_tarefa(Tarefas *tarefa)
