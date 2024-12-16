@@ -119,3 +119,15 @@ void excluir_tarefa(Tarefas *tarefa)
     fgets(tarefa->id, sizeof(tarefa->id), stdin);
     getchar();  // Aguarda o usuário pressionar Enter
 }
+void salva_tarefa(Tarefas* tarefa) {
+    FILE* fp;
+    fp = fopen("tarefas.dat", "ab");
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+    }
+    fwrite(tarefa, sizeof(Tarefas), 1,fp);
+    fclose(fp);
+}
+
