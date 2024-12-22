@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "relatorios.h"
+#include "relmoradores.h"
 
 
 void menu_relatorios(void){
@@ -43,14 +44,6 @@ void menu_relatorios(void){
         }
         
     } while (opcao != 0);
-}
-
-void relatorios_morador(void)
-{
-    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
-    printf("///            = = = = = Relatório de Moradores = = = = = = = = = = = = =   ///\n");
-    // Implementar a geração do relatório
-    printf("///////////////////////////////////////////////////////////////////////////////\n");
 }
 
 void relatorios_despesa(void)
