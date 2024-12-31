@@ -12,7 +12,7 @@ struct moradores {
 
 void menu_moradores(void);
 Moradores* cadastrar_morador(void);
-Moradores* pesquisar_morador(void);
+void pesquisar_morador(void);
 void exibir_morador(const Moradores* morador);
 void atualizar_morador(void);
 void excluir_morador(void);

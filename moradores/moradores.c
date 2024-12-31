@@ -152,10 +152,11 @@ Moradores* cadastrar_morador(void){
     return morador;
 }
 
-Moradores* pesquisar_morador(void) {
+void pesquisar_morador(void) {
     FILE* fp;
     Moradores* morador;
     char cpf_informado[13];
+    int encontrado = 0;
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Pesquisar Morador = = = = = = = = = = = = =        ///\n");
@@ -187,20 +188,23 @@ Moradores* pesquisar_morador(void) {
 
     while (fread(morador, sizeof(Moradores), 1, fp)) {
         if ((strcmp(morador->cpf, cpf_informado) == 0) && (morador->status != 'i')) {  // Compara strings e verifica o status
-            fclose(fp);
+            encontrado = 1;
             exibir_morador(morador);
-            return morador;  // Retorna o morador encontrado
+            break;
         }
     }
 
-    printf("///                                                                         ///\n");
-    printf("///////////////////////////////////////////////////////////////////////////////\n");
-    printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();  // Pausa antes de voltar ao menu
+    if (!encontrado) {
+        printf("///            CPF não encontrado!\n");
+        printf("///                                                                         ///\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();  // Pausa antes de voltar ao menu
+
+    }
 
     fclose(fp);
     free(morador);
-    return NULL;
 }
 
 void exibir_morador(const Moradores* morador) {
