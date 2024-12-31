@@ -343,6 +343,7 @@ void excluir_morador(void) {
     FILE* fp;
     Moradores* morador;
     char cpf_informado[13];
+    int encontrado = 0;
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Excluir Morador = = = = = = = = = = = = =          ///\n");
@@ -374,7 +375,9 @@ void excluir_morador(void) {
 
     while (fread(morador, sizeof(Moradores), 1, fp)) {
         if ((strcmp(morador->cpf, cpf_informado) == 0) && (morador->status != 'i')) {  // Compara strings e verifica o status
+            encontrado = 1;
             exibir_morador(morador);
+
             morador->status = 'i';
             fseek(fp, -sizeof(Moradores), SEEK_CUR);
             fwrite(morador, sizeof(Moradores), 1, fp);
@@ -382,10 +385,11 @@ void excluir_morador(void) {
             printf("///            Morador removido com sucesso!\n");
             break;
 
-        } else {
-            printf("///            CPF não encontrado!\n");
-            break;
         }
+    }
+
+    if (!encontrado) {
+        printf("///            CPF não encontrado!\n");
     }
     
     printf("///                                                                         ///\n");
