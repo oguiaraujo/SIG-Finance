@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "relmoradores.h"
+#include "../moradores/moradores.h"
 
 void relatorios_morador(void) {
     int op;
@@ -21,7 +24,7 @@ void relatorios_morador(void) {
     switch (op)
     {
     case 1:
-        // Função que mostra todos os moradores (em desenvolvimento)
+        exibe_todos_moradores();
         break;
     case 2:
         // Função que mostra os moradores pela data de nascimento (em desenvolvimento)
@@ -45,4 +48,41 @@ void relatorios_morador(void) {
 
     } while (op != 0);
 
+}
+
+void exibe_todos_moradores(void) {
+    FILE *fp;
+    Moradores morador;
+    int encontrou = 0;
+
+    fp = fopen("moradores.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao tentar abrir o arquivo de moradores!\n");
+        return;
+    }
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                     Lista de Todos os Moradores                        ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+
+    while (fread(&morador, sizeof(Moradores), 1, fp)) {
+        encontrou = 1;
+        printf("///            Nome: %s\n", morador.nome);
+        printf("///            Data de Nascimento: %s\n", morador.dat_nasc);
+        printf("///            E-mail: %s\n", morador.email);
+        printf("///            Telefone: %s\n", morador.tel);
+        printf("///            CPF: %s\n", morador.cpf);
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+    }
+
+    if (!encontrou) {
+        printf("/// Nenhum morador cadastrado.\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    }
+
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+
+    fclose(fp);
 }
