@@ -55,7 +55,7 @@ void menu_moradores(void){
     } while (opcao != 0);
 }
 
-Moradores* cadastrar_morador(void){
+void cadastrar_morador(void){
 
     Moradores* morador;
     morador = (Moradores*) malloc(sizeof(Moradores));
@@ -149,7 +149,7 @@ Moradores* cadastrar_morador(void){
     getchar();  // Aguarda o usuário pressionar ENTER antes de voltar ao menu
 
     salva_morador(morador);
-    return morador;
+    free(morador);
 }
 
 void pesquisar_morador(void) {
