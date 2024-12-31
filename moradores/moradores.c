@@ -232,6 +232,7 @@ void atualizar_morador(void) {
     FILE* fp;
     Moradores* morador;
     char cpf_informado[13];
+    int encontrado = 0;
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Morador = = = = = = = = = = = = =        ///\n");
@@ -263,8 +264,11 @@ void atualizar_morador(void) {
 
     while (fread(morador, sizeof(Moradores), 1, fp)) {
         if ((strcmp(morador->cpf, cpf_informado) == 0) && (morador->status != 'i')) {  // Compara strings e verifica o status
+            encontrado = 1;
             exibir_morador(morador);
             // Laço que garante um nome válido
+            printf("/// Atualize os dados do morador:\n");
+            printf("///\n");
             do {
                 printf("///            Nome: ");
                 fgets(morador->nome, sizeof(morador->nome), stdin);
@@ -318,10 +322,11 @@ void atualizar_morador(void) {
             printf("///            Dados atualizados com sucesso!\n");
             break;
 
-        } else {
-            printf("///            CPF não encontrado!\n");
-            break;
         }
+    }
+
+    if (!encontrado) {
+        printf("///            CPF não encontrado!\n");
     }
 
     printf("///                                                                         ///\n");
