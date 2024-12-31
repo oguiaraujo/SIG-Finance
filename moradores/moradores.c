@@ -190,9 +190,6 @@ Moradores* pesquisar_morador(void) {
             fclose(fp);
             exibir_morador(morador);
             return morador;  // Retorna o morador encontrado
-        } else {
-            printf("///            CPF não encontrado!\n");
-            break;
         }
     }
 
