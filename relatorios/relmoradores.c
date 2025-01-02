@@ -30,7 +30,7 @@ void relatorios_morador(void) {
         exibe_morador_por_dat_nasc();
         break;
     case 3:
-        // Função que mostra os moradores ativos (em desenvolvimento)
+        exibe_moradores_ativos();
         break;
     case 4:
         // Função que mostra os moradores inativos (em desenvolvimento)
@@ -146,5 +146,44 @@ void exibe_morador_por_dat_nasc (void) {
     getchar();
 
     free(morador);
+    fclose(fp);
+}
+
+void exibe_moradores_ativos(void) {
+    FILE *fp;
+    Moradores morador;
+    int encontrou = 0;
+
+    fp = fopen("moradores.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao tentar abrir o arquivo de moradores!\n");
+        return;
+    }
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                     Lista de Moradores Ativos                           ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+
+    while (fread(&morador, sizeof(Moradores), 1, fp)) {
+        if (morador.status == 'a') {
+            encontrou = 1;
+            printf("///            Nome: %s\n", morador.nome);
+            printf("///            Data de Nascimento: %s\n", morador.dat_nasc);
+            printf("///            E-mail: %s\n", morador.email);
+            printf("///            Telefone: %s\n", morador.tel);
+            printf("///            CPF: %s\n", morador.cpf);
+            printf("///////////////////////////////////////////////////////////////////////////////\n");
+        }
+    }
+
+    if (!encontrou) {
+        printf("/// Nenhum morador cadastrado.\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    }
+
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+
     fclose(fp);
 }
