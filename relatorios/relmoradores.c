@@ -72,6 +72,7 @@ void exibe_todos_moradores(void) {
         printf("///            E-mail: %s\n", morador.email);
         printf("///            Telefone: %s\n", morador.tel);
         printf("///            CPF: %s\n", morador.cpf);
+        printf("///            Status: %c\n", morador.status);
         printf("///////////////////////////////////////////////////////////////////////////////\n");
     }
 
