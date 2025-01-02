@@ -33,7 +33,7 @@ void relatorios_morador(void) {
         exibe_moradores_ativos();
         break;
     case 4:
-        // Função que mostra os moradores inativos (em desenvolvimento)
+        exibe_moradores_inativos();
         break;
     case 0:
 
@@ -178,6 +178,45 @@ void exibe_moradores_ativos(void) {
 
     if (!encontrou) {
         printf("/// Nenhum morador cadastrado.\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    }
+
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+
+    fclose(fp);
+}
+
+void exibe_moradores_inativos(void) {
+    FILE *fp;
+    Moradores morador;
+    int encontrou = 0;
+
+    fp = fopen("moradores.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao tentar abrir o arquivo de moradores!\n");
+        return;
+    }
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                     Lista de Moradores Inativos                           ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+
+    while (fread(&morador, sizeof(Moradores), 1, fp)) {
+        if (morador.status == 'i') {
+            encontrou = 1;
+            printf("///            Nome: %s\n", morador.nome);
+            printf("///            Data de Nascimento: %s\n", morador.dat_nasc);
+            printf("///            E-mail: %s\n", morador.email);
+            printf("///            Telefone: %s\n", morador.tel);
+            printf("///            CPF: %s\n", morador.cpf);
+            printf("///////////////////////////////////////////////////////////////////////////////\n");
+        }
+    }
+
+    if (!encontrou) {
+        printf("/// Nenhum morador inativo.\n");
         printf("///////////////////////////////////////////////////////////////////////////////\n");
         printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     }
