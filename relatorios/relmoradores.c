@@ -27,7 +27,7 @@ void relatorios_morador(void) {
         exibe_todos_moradores();
         break;
     case 2:
-        // Função que mostra os moradores pela data de nascimento (em desenvolvimento)
+        exibe_morador_por_dat_nasc();
         break;
     case 3:
         // Função que mostra os moradores ativos (em desenvolvimento)
@@ -84,5 +84,67 @@ void exibe_todos_moradores(void) {
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 
+    fclose(fp);
+}
+
+void exibe_morador_por_dat_nasc (void) {
+    FILE *fp;
+    Moradores *morador;
+    char data_informada[20];
+    int encontrou = 0;
+
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///              Lista de Moradores por Data de Nascimento                  ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+
+
+    do {
+        printf("///            Data de Nascimento (DD/MM/AAAA): ");
+        fgets(data_informada, sizeof(data_informada), stdin);
+        remove_enter(data_informada);
+        if (valida_data(data_informada)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira uma DATA válida!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+
+    fp = fopen("moradores.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao tentar abrir o arquivo de moradores!\n");
+        return;
+    }
+
+    morador = malloc(sizeof(Moradores));
+    if (morador == NULL) {
+        printf("Erro ao tentar alocar memória");
+        fclose(fp);
+        return;
+    }
+
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+
+    while (fread(morador,sizeof(Moradores), 1, fp) == 1) {
+        if (morador->status == 'a' && strcmp(morador->dat_nasc, data_informada) == 0) {
+            encontrou = 1;
+            printf("///            Nome: %s\n", morador->nome);
+            printf("///            E-mail: %s\n", morador->email);
+            printf("///            Telefone: %s\n", morador->tel);
+            printf("///            CPF: %s\n", morador->cpf);
+            printf("///////////////////////////////////////////////////////////////////////////////\n");
+        }
+    }
+
+    if (!encontrou) {
+        printf("Nenhum morador encontrado com a data de nascimento %s.\n", data_informada);
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    }
+
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+
+    free(morador);
     fclose(fp);
 }
