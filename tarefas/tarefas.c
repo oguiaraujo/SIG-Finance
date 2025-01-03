@@ -61,8 +61,6 @@ Tarefas* cadastrar_tarefa(void){
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Tarefa = = = = = = = = = = = = = = = =    ///\n");
     printf("///                                                                         ///\n");
-    printf("/// ID da tarefa:                                                           ///\n");
-    fgets(tarefa->id, sizeof(tarefa->id), stdin);
     printf("/// Descrição da tarefa:                                                    ///\n");
     fgets(tarefa->descricao, sizeof(tarefa->descricao), stdin);
 
@@ -78,6 +76,8 @@ Tarefas* cadastrar_tarefa(void){
     } while (1); // Mantém o laço até quw seja valido
 
     tarefa->status ='a';
+
+    gera_id_tarefa(tarefa->id);
 
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///           Tarefa cadastrada com sucesso                                 ///\n");
@@ -309,6 +309,7 @@ void salva_tarefa(Tarefas* tarefa) {
     fclose(fp);
 }
 
+// Créditos ChatGPT
 void gera_id_tarefa(char* id_tarefa) {
     FILE *fp;
     int contador = 0;
