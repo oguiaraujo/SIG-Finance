@@ -308,3 +308,30 @@ void salva_tarefa(Tarefas* tarefa) {
     fwrite(tarefa, sizeof(Tarefas), 1,fp);
     fclose(fp);
 }
+
+void gera_id_tarefa(char* id_tarefa) {
+    FILE *fp;
+    int contador = 0;
+
+    fp = fopen("id_tarefas.dat", "rb+");
+    if (fp == NULL) {
+        fp = fopen("id_tarefas.dat", "wb");
+
+        if (fp == NULL) {
+            printf("Erro ao acessar o arquivo de IDs para tarefas!\n");
+            exit(1);
+        }
+        contador = 1;
+
+    } else {
+        fread(&contador, sizeof(int), 1, fp);
+        contador++;
+    }
+
+    rewind(fp);
+    fwrite(&contador, sizeof(int), 1, fp);
+
+    fclose(fp);
+
+    sprintf(id_tarefa, "TAR%05d", contador);
+}
