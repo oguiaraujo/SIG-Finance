@@ -50,7 +50,7 @@ void menu_tarefas(){
     } while (opcao != 0);
 }
 
-Tarefas* cadastrar_tarefa(void){
+void cadastrar_tarefa(void){
     
     Tarefas* tarefa;
     tarefa = (Tarefas*) malloc(sizeof(Tarefas));
@@ -94,7 +94,7 @@ Tarefas* cadastrar_tarefa(void){
     getchar(); // Aguarda o usuário pressionar ENTER antes de voltar ao menu
 
     salva_tarefa(tarefa);
-    return tarefa; 
+    free(tarefa);
 }
 
 
