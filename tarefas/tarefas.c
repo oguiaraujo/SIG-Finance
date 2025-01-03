@@ -98,17 +98,20 @@ void cadastrar_tarefa(void){
 }
 
 
-Tarefas* pesquisar_tarefa(void) {
+void pesquisar_tarefa(void) {
     FILE *fp;
     Tarefas* tarefa;
-    char id[5];
+    char id_informado[11];
+    int encontrado = 0;
 
+    system("clear||cls");
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Pesquisar Tarefa = = = = = = = = = = = = = = = =   ///\n");
     printf("///                                                                         ///\n");
-    printf("/// Informe o ID da tarefa:                                                 ///\n");
-    fgets(tarefa->id, sizeof(tarefa->id), stdin);
-    getchar();  // Aguarda o usuário pressionar Enter
+
+    printf("/// Informe o ID da tarefa (TAR-XXXXX): ");
+    fgets(id_informado, sizeof(id_informado), stdin);
+    remove_enter(id_informado);
 
     tarefa = (Tarefas*) malloc(sizeof(Tarefas));
     if (tarefa == NULL) {
@@ -125,24 +128,23 @@ Tarefas* pesquisar_tarefa(void) {
     }
 
     while (fread(tarefa, sizeof(Tarefas), 1, fp)) {
-        if ((strcmp(tarefa->id, id)== 0)&& (tarefa->status != '1')) {
-            fclose(fp);
+        if ((strcmp(tarefa->id, id_informado)== 0) && (tarefa->status != 'i')) {
+            encontrado = 1;
             exibir_tarefa(tarefa);
-            return tarefa;
-        } else {
-            printf("///        ID não encontrado!\n");
             break;
         }
     }
 
-    printf("///                                                                         ///\n");
-    printf("///////////////////////////////////////////////////////////////////////////////\n");
-    printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
+    if (!encontrado) {
+        printf("///            Tarefa não encontrada!\n");
+        printf("///                                                                         ///\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
 
     fclose(fp);
     free(tarefa);
-    return NULL;
 }
 
 void exibir_tarefa(const Tarefas* tarefa) {
@@ -334,5 +336,5 @@ void gera_id_tarefa(char* id_tarefa) {
 
     fclose(fp);
 
-    sprintf(id_tarefa, "TAR%05d", contador);
+    sprintf(id_tarefa, "TAR-%05d", contador);
 }
