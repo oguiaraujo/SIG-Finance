@@ -269,13 +269,13 @@ void excluir_tarefa(void) {
 
             printf("///         Tarefa removida com sucesso!\n");
             break;
-        } else {
-            printf("///         ID não encontrado!\n");
-            break;
         }
-
     }
 
+    if (!encontrado) {
+        printf("///            Tarefa não encontrada!\n");
+    }
+    
     printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
