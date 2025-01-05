@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "reltarefas.h"
+#include "../tarefas/tarefas.h"
 
 void relatorios_tarefas(void) {
     int op;
@@ -23,7 +24,7 @@ void relatorios_tarefas(void) {
     switch (op)
     {
     case 1:
-        // Em desenvolvimento
+        exibe_todas_tarefas();
         break;
     case 2:
         // Em desenvolvimento
@@ -47,4 +48,40 @@ void relatorios_tarefas(void) {
 
     } while (op != 0);
 
+}
+
+void exibe_todas_tarefas(void) {
+    FILE *fp;
+    Tarefas tarefa;
+    int encontrado = 0;
+
+    fp = fopen("tarefas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        return;
+    }
+
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                     Lista de Todas as Tarefas                           ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+
+    while (fread(&tarefa, sizeof(Tarefas), 1, fp)) {
+        encontrado = 1;
+        printf("///            ID da Tarefa: %s\n", tarefa.id);
+        printf("///            Descrição: %s\n", tarefa.descricao);
+        printf("///            Prazo: %s\n", tarefa.prazo);
+        printf("///            status: %c\n", tarefa.status);
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+    }
+
+    if (!encontrado) {
+        printf("/// Nenhuma Tarefa Cadastrada.\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+    }
+
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+
+    fclose(fp);
 }
