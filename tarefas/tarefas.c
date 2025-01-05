@@ -236,20 +236,20 @@ void atualizar_tarefa(void) {
 void excluir_tarefa(void) {
     FILE* fp;
     Tarefas* tarefa;
-    char id[5];
+    char id_informado[11];
+    int encontrado = 0;
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Excluir Tarefa = = = = = = = = = = = = = = = =     ///\n");
     printf("///                                                                         ///\n");
-    printf("/// Informe o ID da tarefa que deseja excluir:                              ///\n");
-    fgets(tarefa->id, sizeof(tarefa->id), stdin);
-    getchar();  // Aguarda o usuário pressionar Enter
+    printf("/// Informe o ID da tarefa (TAR-XXXXX) que deseja excluir: ");
+    fgets(id_informado, sizeof(id_informado), stdin);
+    remove_enter(id_informado);
 
     tarefa = (Tarefas*) malloc(sizeof(Tarefas));
     if (tarefa == NULL) {
         printf("Erro ao alocar memória para tarefa.\n");
         exit(1);
-
     }
 
     fp = fopen("tarefas.dat", "r+b");
@@ -260,7 +260,8 @@ void excluir_tarefa(void) {
     }
 
     while (fread(tarefa, sizeof(Tarefas), 1, fp)) {
-        if ((strcmp(tarefa->id, id) == 0) && (tarefa->status != '1')) {
+        if ((strcmp(tarefa->id, id_informado) == 0) && (tarefa->status != 'i')) {
+            encontrado = 1;
             exibir_tarefa(tarefa);
             tarefa->status = 'i';
             fseek(fp, -sizeof(Tarefas), SEEK_CUR);
@@ -282,8 +283,6 @@ void excluir_tarefa(void) {
 
     fclose(fp);
     free(tarefa);
-
-
 }
 
 
