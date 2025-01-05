@@ -33,7 +33,7 @@ void relatorios_tarefas(void) {
         exibe_tarefas_ativas();
         break;
     case 4:
-        // Em desenvolvimento
+        exibe_tarefas_inativas();
         break;
     case 0:
 
@@ -161,6 +161,45 @@ void exibe_tarefas_ativas(void) {
 
     while (fread(&tarefa, sizeof(Tarefas), 1, fp)) {
         if (tarefa.status == 'a') {
+            encontrado = 1;
+            printf("///            ID da Tarefa: %s\n", tarefa.id);
+            printf("///            Descrição: %s\n", tarefa.descricao);
+            printf("///            Prazo: %s\n", tarefa.prazo);
+            printf("///            status: %c\n", tarefa.status);
+            printf("///////////////////////////////////////////////////////////////////////////////\n");
+        }
+        
+    }
+
+    if (!encontrado) {
+        printf("/// Nenhuma Tarefa Cadastrada.\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+    }
+
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+
+    fclose(fp);
+}
+
+void exibe_tarefas_inativas(void) {
+    FILE *fp;
+    Tarefas tarefa;
+    int encontrado = 0;
+
+    fp = fopen("tarefas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        return;
+    }
+
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                     Lista de Todas as Tarefas Inativas                  ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+
+    while (fread(&tarefa, sizeof(Tarefas), 1, fp)) {
+        if (tarefa.status == 'i') {
             encontrado = 1;
             printf("///            ID da Tarefa: %s\n", tarefa.id);
             printf("///            Descrição: %s\n", tarefa.descricao);
