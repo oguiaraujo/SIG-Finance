@@ -169,26 +169,16 @@ void exibir_tarefa(const Tarefas* tarefa) {
 void atualizar_tarefa(void) {
     FILE* fp;
     Tarefas* tarefa;
-    char id[5];
+    char id_informado[11];
+    int encontrado = 0;
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Tarefa = = = = = = = = = = = = = = = =    ///\n");
     printf("///                                                                         ///\n");
-    printf("/// Informe o ID da tarefa que deseja atualizar:                            ///\n");
-    fgets(tarefa->id, sizeof(tarefa->id), stdin);
-    printf("/// Nova descrição:                                                         ///\n");
-    fgets(tarefa->descricao, sizeof(tarefa->descricao), stdin);
 
-    do {
-        printf("/// Novo prazo (DD/MM/AAAA):                                                ///\n");
-        fgets(tarefa->prazo, sizeof(tarefa->prazo), stdin);
-        remove_enter(tarefa->prazo);
-        if (valida_data(tarefa->prazo)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira uma DATA válida!\n");
-        }
-    } while (1); // Mantém o laço até quw seja valido
+    printf("/// Informe o ID da tarefa (TAR-XXXXX) que deseja atualizar: ");
+    fgets(id_informado, sizeof(id_informado), stdin);
+    remove_enter(id_informado);
 
     tarefa = (Tarefas*) malloc(sizeof(Tarefas));
     if (tarefa == NULL) {
@@ -204,10 +194,9 @@ void atualizar_tarefa(void) {
     }
     
     while (fread(tarefa, sizeof(Tarefas), 1, fp)) {
-        if ((strcmp(tarefa->id, id)== 0) && (tarefa->status != '1')) {
+        if ((strcmp(tarefa->id, id_informado)== 0) && (tarefa->status != 'i')) {
+            encontrado = 1;
             exibir_tarefa(tarefa);
-            printf("///        ID:  ");
-            fgets(tarefa->id, sizeof(tarefa->id), stdin);
 
             printf("///        Descrição:  ");
             fgets(tarefa->descricao, sizeof(tarefa->descricao), stdin);
@@ -228,11 +217,11 @@ void atualizar_tarefa(void) {
 
             printf("///              Dados atualizados com sucesso!\n");
             break;
+        }
+    }
 
-        } else{
-            printf("///              ID não encontrado!\n");
-            break;
-        } 
+    if (!encontrado) {
+        printf("///            Tarefa não encontrada!\n");
     }
 
     printf("///                                                                         ///\n");
@@ -242,7 +231,6 @@ void atualizar_tarefa(void) {
 
     fclose(fp);
     free(tarefa);
-
 }
 
 void excluir_tarefa(void) {
