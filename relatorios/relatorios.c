@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "relatorios.h"
 #include "relmoradores.h"
+#include "reltarefas.h"
 
 
 void menu_relatorios(void){
@@ -30,7 +31,7 @@ void menu_relatorios(void){
             relatorios_despesa();
             break;
         case 3:
-            relatorios_tarefa();
+            relatorios_tarefas();
             break;
         case 0:
         
@@ -50,14 +51,6 @@ void relatorios_despesa(void)
 {
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Relatório de Despesas = = = = = = = = = = = = =    ///\n");
-    // Implementar a geração do relatório
-    printf("///////////////////////////////////////////////////////////////////////////////\n");
-}
-
-void relatorios_tarefa(void)
-{
-    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
-    printf("///            = = = = = Relatório de Tarefas = = = = = = = = = = = = =     ///\n");
     // Implementar a geração do relatório
     printf("///////////////////////////////////////////////////////////////////////////////\n");
 }
