@@ -49,14 +49,14 @@ void menu_despesas(void){
 }
 
 Despesas* cadastrar_despesa(void) {
-
+    system("clear||cls");
     Despesas* despesa;
     despesa = (Despesas*) malloc(sizeof(Despesas));
     if (despesa == NULL) {
         printf("Erro ao alocar memória para o despesa.\n");
         exit(1);
     }
-
+    system("clear||cls");
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Nova Despesa = = = = = = = = = = = = =   ///\n");
     printf("///                                                                         ///\n");
@@ -113,7 +113,7 @@ Despesas* cadastrar_despesa(void) {
 }
 
 Despesas* pesquisar_despesa(void) {
-
+    system("clear||cls");
     FILE* fp;
     Despesas* despesa;
     char id_informado[5];
@@ -181,6 +181,7 @@ void exibir_despesa(const Despesas* despesa) {
 
 
 void atualizar_despesa(void) {
+    system("clear||cls");
     FILE* fp;
     Despesas* despesa;
     char id_informado[5];
@@ -258,6 +259,7 @@ void atualizar_despesa(void) {
 }
 
 void excluir_despesa() {
+    system("clear||cls");
     FILE* fp;
     Despesas* despesa;
     char id_informado[5];
