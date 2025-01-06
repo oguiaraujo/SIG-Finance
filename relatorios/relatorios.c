@@ -4,6 +4,7 @@
 #include "relatorios.h"
 #include "relmoradores.h"
 #include "reltarefas.h"
+#include "reldespesas.h"
 
 
 void menu_relatorios(void){
@@ -47,10 +48,3 @@ void menu_relatorios(void){
     } while (opcao != 0);
 }
 
-void relatorios_despesa(void)
-{
-    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
-    printf("///            = = = = = Relatório de Despesas = = = = = = = = = = = = =    ///\n");
-    // Implementar a geração do relatório
-    printf("///////////////////////////////////////////////////////////////////////////////\n");
-}
