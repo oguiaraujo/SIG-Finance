@@ -71,17 +71,7 @@ void cadastrar_morador(void){
 
     insira_nome(morador->nome, sizeof(morador->nome));
 
-    // Laço que garante uma data váida
-    do {
-        printf("///            Data de Nascimento (DD/MM/AAAA): ");
-        fgets(morador->dat_nasc, sizeof(morador->dat_nasc), stdin);
-        remove_enter(morador->dat_nasc);
-        if (valida_data(morador->dat_nasc)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira uma DATA válida!\n");
-        }
-    } while (1); // Mantém o laço até que seja valido
+    insira_data(morador->dat_nasc, sizeof(morador->dat_nasc));
 
     // Laço que garante um email válido
     do {
@@ -263,17 +253,7 @@ void atualizar_morador(void) {
             
             insira_nome(morador->nome, sizeof(morador->nome));
 
-            // Laço que garante uma data váida
-            do {
-                printf("///            Data de Nascimento (DD/MM/AAAA): ");
-                fgets(morador->dat_nasc, sizeof(morador->dat_nasc), stdin);
-                remove_enter(morador->dat_nasc);
-                if (valida_data(morador->dat_nasc)){
-                    break; // Sai do laço apenas se for válido
-                } else{
-                    printf("///            Insira uma DATA válida!\n");
-                }
-            } while (1); // Mantém o laço até que seja valido
+            insira_data(morador->dat_nasc, sizeof(morador->dat_nasc));
 
             // Laço que garante um email válido
             do {
@@ -407,6 +387,19 @@ void insira_nome(char* nome, size_t tamanho) {
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira um NOME válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+}
+
+void insira_data(char* data, size_t tamanho) {
+    do {
+        printf("///            Data de Nascimento (DD/MM/AAAA): ");
+        fgets(data, sizeof(tamanho), stdin);
+        remove_enter(data);
+        if (valida_data(data)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira uma DATA válida!\n");
         }
     } while (1); // Mantém o laço até que seja valido
 }
