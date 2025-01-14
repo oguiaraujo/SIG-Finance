@@ -68,17 +68,8 @@ void cadastrar_morador(void){
     printf("///            = = = = = Cadastrar Novo Morador = = = = = = = = = = = = =   ///\n");
     printf("///                                                                         ///\n");
     printf("/// Informe os dados do morador:                                            ///\n");
-    // Laço que garante um nome válido
-    do {
-        printf("///            Nome: ");
-        fgets(morador->nome, sizeof(morador->nome), stdin);
-        remove_enter(morador->nome);
-        if (valida_nome(morador->nome)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira um NOME válido!\n");
-        }
-    } while (1); // Mantém o laço até que seja valido
+
+    insira_nome(morador->nome, sizeof(morador->nome));
 
     // Laço que garante uma data váida
     do {
@@ -269,16 +260,8 @@ void atualizar_morador(void) {
             // Laço que garante um nome válido
             printf("/// Atualize os dados do morador:\n");
             printf("///\n");
-            do {
-                printf("///            Nome: ");
-                fgets(morador->nome, sizeof(morador->nome), stdin);
-                remove_enter(morador->nome);
-                if (valida_nome(morador->nome)){
-                    break; // Sai do laço apenas se for válido
-                } else{
-                    printf("///            Insira um NOME válido!\n");
-                }
-            } while (1); // Mantém o laço até que seja valido
+            
+            insira_nome(morador->nome, sizeof(morador->nome));
 
             // Laço que garante uma data váida
             do {
@@ -413,4 +396,17 @@ void salva_morador(Moradores* morador) {
     }
     fwrite(morador, sizeof(Moradores), 1, fp);
     fclose(fp);
+}
+
+void insira_nome(char* nome, size_t tamanho) {
+    do {
+        printf("///            Nome: ");
+        fgets(nome, sizeof(tamanho), stdin);
+        remove_enter(nome);
+        if (valida_nome(nome)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um NOME válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
 }

@@ -17,3 +17,4 @@ void exibir_morador(const Moradores* morador);
 void atualizar_morador(void);
 void excluir_morador(void);
 void salva_morador(Moradores* morador);
+void insira_nome(char* nome, size_t tamanho);
