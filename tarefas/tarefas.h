@@ -4,7 +4,7 @@ typedef struct tarefas Tarefas;
 struct tarefas{
     char cpf_responsavel[13];
     char descricao[100];
-    char prazo[20];
+    char prazo[12];
     char id[11];
     char status;
 };

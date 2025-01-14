@@ -3,10 +3,10 @@ typedef struct moradores Moradores;
 
 struct moradores {
     char nome[50];
-    char dat_nasc[20];
+    char dat_nasc[12];
     char email[50];
     char tel[17];
-    char cpf[13];
+    char cpf[16];
     char status;
 };
 
