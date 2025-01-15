@@ -18,3 +18,4 @@ void atualizar_tarefa(void);
 void excluir_tarefa(void);
 void gera_id_tarefa(char* id_tarefa);
 void insira_descricao(char* descricao, size_t tamanho);
+void insira_prazo(char* prazo, size_t tamanho);

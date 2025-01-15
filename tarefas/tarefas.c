@@ -64,16 +64,7 @@ void cadastrar_tarefa(void){
 
     insira_descricao(tarefa->descricao, sizeof(tarefa->descricao));
 
-    do {
-        printf("/// Prazo da tarefa (DD/MM/AAAA):                                           ///\n");
-        fgets(tarefa->prazo, sizeof(tarefa->prazo), stdin);
-        remove_enter(tarefa->prazo);
-        if (valida_data(tarefa->prazo)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira uma DATA válida!\n");
-        }
-    } while (1); // Mantém o laço até quw seja valido
+    insira_prazo(tarefa->prazo, sizeof(tarefa->prazo));
 
     tarefa->status ='a';
 
@@ -201,16 +192,7 @@ void atualizar_tarefa(void) {
 
             insira_descricao(tarefa->descricao, sizeof(tarefa->descricao));
 
-            do {
-                printf("/// Prazo da tarefa (DD/MM/AAAA): ");
-                fgets(tarefa->prazo, sizeof(tarefa->prazo), stdin);
-                remove_enter(tarefa->prazo);
-                if(valida_data(tarefa->prazo)){
-                    break;
-                } else{
-                    printf("///      Insira uma DATA válida!\n");
-                }
-            } while(1);
+            insira_prazo(tarefa->prazo, sizeof(tarefa->prazo));
 
             fseek(fp, -sizeof(Tarefas), SEEK_CUR);
             fwrite(tarefa, sizeof(Tarefas), 1, fp);
@@ -332,7 +314,7 @@ void insira_descricao(char* descricao, size_t tamanho) {
         printf("///            Descrição da tarefa (até 100 caracteres): ");
         fgets(descricao, tamanho, stdin);
         remove_enter(descricao);
-        
+
         // Verifica se a descrição está vazia
         if (strlen(descricao) == 0) {
             printf("///            A descrição não pode estar vazia. Tente novamente.\n");
@@ -349,4 +331,17 @@ void insira_descricao(char* descricao, size_t tamanho) {
             printf("\n///            Insira uma DESCRIÇÃO válida (Apenas letras)!\n");
         }
     } while (1);
+}
+
+void insira_prazo(char* prazo, size_t tamanho) {
+    do {
+        printf("///      Prazo da tarefa (DD/MM/AAAA): ");
+        fgets(prazo, tamanho, stdin);
+        remove_enter(prazo);
+        if(valida_data(prazo)){
+            break;
+        } else{
+            printf("///      Insira uma DATA válida!\n");
+        }
+    } while(1);
 }
