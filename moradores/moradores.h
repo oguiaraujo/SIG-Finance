@@ -20,3 +20,4 @@ void salva_morador(Moradores* morador);
 void insira_nome(char* nome, size_t tamanho);
 void insira_data(char* data, size_t tamanho);
 void insira_email(char* email, size_t tamanho);
+void insira_telefone(char* tel, size_t tamanho);

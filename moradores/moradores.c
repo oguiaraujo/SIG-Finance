@@ -75,17 +75,7 @@ void cadastrar_morador(void){
 
     insira_email(morador->email, sizeof(morador->email));
 
-    // Laço que garante um email válido
-    do {
-        printf("///            Telefone: ");
-        fgets(morador->tel, sizeof(morador->tel), stdin);
-        remove_enter(morador->tel);
-        if (valida_tel(morador->tel)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira um TELEFONE válido!\n");
-        }
-    } while (1); // Mantém o laço até que seja valido
+    insira_telefone(morador->tel, sizeof(morador->tel));
 
     // Laço que garante um CPF válido
     do {
@@ -247,17 +237,7 @@ void atualizar_morador(void) {
 
             insira_email(morador->email, sizeof(morador->email));
 
-            // Laço que garante um email válido
-            do {
-                printf("///            Telefone: ");
-                fgets(morador->tel, sizeof(morador->tel), stdin);
-                remove_enter(morador->tel);
-                if (valida_tel(morador->tel)){
-                    break; // Sai do laço apenas se for válido
-                } else{
-                    printf("///            Insira um TELEFONE válido!\n");
-                }
-            } while (1); // Mantém o laço até que seja valido
+            insira_telefone(morador->tel, sizeof(morador->tel));
 
             fseek(fp, -sizeof(Moradores), SEEK_CUR);
             fwrite(morador, sizeof(Moradores), 1, fp);
@@ -395,4 +375,18 @@ void insira_email(char* email, size_t tamanho) {
             printf("///            Insira um E-MAIL válido!\n");
         }
     } while (1); // Mantém o laço até que seja valido
+}
+
+void insira_telefone(char* tel, size_t tamanho) {
+    do {
+        printf("///            Telefone: ");
+        fgets(tel, tamanho, stdin);
+        remove_enter(tel);
+        if (valida_tel(tel)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um TELEFONE válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+
 }
