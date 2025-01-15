@@ -69,6 +69,8 @@ void cadastrar_morador(void){
     printf("///                                                                         ///\n");
     printf("/// Informe os dados do morador:                                            ///\n");
 
+    insira_cpf(morador->cpf, sizeof(morador->cpf));
+
     insira_nome(morador->nome, sizeof(morador->nome));
 
     insira_data(morador->dat_nasc, sizeof(morador->dat_nasc));
@@ -76,18 +78,6 @@ void cadastrar_morador(void){
     insira_email(morador->email, sizeof(morador->email));
 
     insira_telefone(morador->tel, sizeof(morador->tel));
-
-    // Laço que garante um CPF válido
-    do {
-        printf("///            CPF: ");
-        fgets(morador->cpf, sizeof(morador->cpf), stdin);
-        remove_enter(morador->cpf);
-        if (valida_cpf(morador->cpf)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira um CPF válido!\n");
-        }
-    } while (1); // Mantém o laço até que seja valido
 
     morador->status = 'a';
 
@@ -123,16 +113,7 @@ void pesquisar_morador(void) {
     printf("///            = = = = = Pesquisar Morador = = = = = = = = = = = = =        ///\n");
     printf("///                                                                         ///\n");
 
-    do {
-        printf("/// Informe o CPF do morador para pesquisa: ");
-        fgets(cpf_informado, sizeof(cpf_informado), stdin);
-        remove_enter(cpf_informado);
-        if (valida_cpf(cpf_informado)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira um CPF válido!\n");
-        }
-    } while (1); // Mantém o laço até que seja valido
+    insira_cpf(cpf_informado, sizeof(morador->cpf));
 
     morador = (Moradores*) malloc(sizeof(Moradores)); // Aloca memória dinâmica
     if (morador == NULL) {
@@ -199,16 +180,7 @@ void atualizar_morador(void) {
     printf("///            = = = = = Atualizar Morador = = = = = = = = = = = = =        ///\n");
     printf("///                                                                         ///\n");
 
-    do {
-        printf("/// Informe o CPF do morador para atualizar: ");
-        fgets(cpf_informado, sizeof(cpf_informado), stdin);
-        remove_enter(cpf_informado);
-        if (valida_cpf(cpf_informado)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira um CPF válido!\n");
-        }
-    } while (1); // Mantém o laço até que seja valido
+    insira_cpf(cpf_informado, sizeof(morador->cpf));
 
     morador = (Moradores*) malloc(sizeof(Moradores)); // Aloca memória dinâmica
     if (morador == NULL) {
@@ -272,16 +244,7 @@ void excluir_morador(void) {
     printf("///            = = = = = Excluir Morador = = = = = = = = = = = = =          ///\n");
     printf("///                                                                         ///\n");
 
-    do {
-        printf("/// Informe o CPF do morador para atualizar: ");
-        fgets(cpf_informado, sizeof(cpf_informado), stdin);
-        remove_enter(cpf_informado);
-        if (valida_cpf(cpf_informado)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira um CPF válido!\n");
-        }
-    } while (1); // Mantém o laço até que seja valido
+    insira_cpf(cpf_informado, sizeof(morador->cpf));
 
     morador = (Moradores*) malloc(sizeof(Moradores)); // Aloca memória dinâmica
     if (morador == NULL) {
@@ -388,5 +351,17 @@ void insira_telefone(char* tel, size_t tamanho) {
             printf("///            Insira um TELEFONE válido!\n");
         }
     } while (1); // Mantém o laço até que seja valido
+}
 
+void insira_cpf(char* cpf, size_t tamanho) {
+    do {
+        printf("///            CPF: ");
+        fgets(cpf, tamanho, stdin);
+        remove_enter(cpf);
+        if (valida_cpf(cpf)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um CPF válido!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
 }
