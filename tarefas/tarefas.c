@@ -61,8 +61,8 @@ void cadastrar_tarefa(void){
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Tarefa = = = = = = = = = = = = = = = =    ///\n");
     printf("///                                                                         ///\n");
-    printf("/// Descrição da tarefa:                                                    ///\n");
-    fgets(tarefa->descricao, sizeof(tarefa->descricao), stdin);
+
+    insira_descricao(tarefa->descricao, sizeof(tarefa->descricao));
 
     do {
         printf("/// Prazo da tarefa (DD/MM/AAAA):                                           ///\n");
@@ -196,10 +196,10 @@ void atualizar_tarefa(void) {
     while (fread(tarefa, sizeof(Tarefas), 1, fp)) {
         if ((strcmp(tarefa->id, id_informado)== 0) && (tarefa->status != 'i')) {
             encontrado = 1;
+
             exibir_tarefa(tarefa);
 
-            printf("///        Descrição:  ");
-            fgets(tarefa->descricao, sizeof(tarefa->descricao), stdin);
+            insira_descricao(tarefa->descricao, sizeof(tarefa->descricao));
 
             do {
                 printf("/// Prazo da tarefa (DD/MM/AAAA): ");
@@ -324,4 +324,29 @@ void gera_id_tarefa(char* id_tarefa) {
     fclose(fp);
 
     sprintf(id_tarefa, "TAR-%05d", contador);
+}
+
+// Adaptado do ChatGPT
+void insira_descricao(char* descricao, size_t tamanho) {
+    do {
+        printf("///            Descrição da tarefa (até 100 caracteres): ");
+        fgets(descricao, tamanho, stdin);
+        remove_enter(descricao);
+        
+        // Verifica se a descrição está vazia
+        if (strlen(descricao) == 0) {
+            printf("///            A descrição não pode estar vazia. Tente novamente.\n");
+        }
+        // Verifica se a entrada excedeu o tamanho permitido
+        else if (strlen(descricao) >= tamanho - 1) {
+            printf("///            A descrição excedeu o limite de 100 caracteres. Tente novamente.\n");
+            // Limpa o buffer de entrada
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+        } else if (valida_nome(descricao)) {
+            break; // Entrada válida
+        } else {
+            printf("\n///            Insira uma DESCRIÇÃO válida (Apenas letras)!\n");
+        }
+    } while (1);
 }
