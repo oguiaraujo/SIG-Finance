@@ -341,7 +341,7 @@ void salva_morador(Moradores* morador) {
 void insira_nome(char* nome, size_t tamanho) {
     do {
         printf("///            Nome: ");
-        fgets(nome, sizeof(tamanho), stdin);
+        fgets(nome, tamanho, stdin);
         remove_enter(nome);
         if (valida_nome(nome)){
             break; // Sai do laço apenas se for válido
@@ -354,7 +354,7 @@ void insira_nome(char* nome, size_t tamanho) {
 void insira_data(char* data, size_t tamanho) {
     do {
         printf("///            Data de Nascimento (DD/MM/AAAA): ");
-        fgets(data, sizeof(tamanho), stdin);
+        fgets(data, tamanho, stdin);
         remove_enter(data);
         if (valida_data(data)){
             break; // Sai do laço apenas se for válido
@@ -367,7 +367,7 @@ void insira_data(char* data, size_t tamanho) {
 void insira_email(char* email, size_t tamanho) {
     do {
         printf("///            E-mail: ");
-        fgets(email, sizeof(tamanho), stdin);
+        fgets(email, tamanho, stdin);
         remove_enter(email);
         if (valida_email(email)){
             break; // Sai do laço apenas se for válido
