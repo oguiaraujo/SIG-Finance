@@ -88,19 +88,43 @@ int valida_data(const char *data) {
     return 1;  // Data válida
 }
 
-    // Valida o cpf
-    // Adicionar mais condicoes depois
-    int valida_cpf(char *cpf) {
-	int tam;
-	tam = strlen(cpf);
-	if (tam != 11) {
-	    return 0;
-	}
-	for(int i = 0; i < tam; i++) {
-        if (!checar_digito(cpf[i])) {
+// Valida o cpf
+// Adaptado do SIG-DietPlain: https://github.com/Diego-Axel/SIG-DietPlan.git
+int valida_cpf(char *cpf) {
+    if (strlen(cpf) != 11) {
+        return 0;
+    }
+    
+    for (int i = 0; i < 11; i++) {
+        if (!isdigit(cpf[i])) {
             return 0;
         }
     }
+
+    int soma = 0;
+    for (int i = 0; i < 9; i++) {
+        soma += (cpf[i] - '0') * (10 - i);
+    }
+    int primeiroDigitoVerificador = (soma * 10) % 11;
+    if (primeiroDigitoVerificador == 10) {
+        primeiroDigitoVerificador = 0;
+    }
+    if (primeiroDigitoVerificador != (cpf[9] - '0')) {
+        return 0;
+    }
+
+    soma = 0;
+    for (int i = 0; i < 10; i++) {
+        soma += (cpf[i] - '0') * (11 - i);
+    }
+    int segundoDigitoVerificador = (soma * 10) % 11;
+    if (segundoDigitoVerificador == 10) {
+        segundoDigitoVerificador = 0;
+    }
+    if (segundoDigitoVerificador != (cpf[10] - '0')) {
+        return 0; 
+    }
+
     return 1;
 }
 
