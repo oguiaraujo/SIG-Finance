@@ -73,17 +73,7 @@ void cadastrar_morador(void){
 
     insira_data(morador->dat_nasc, sizeof(morador->dat_nasc));
 
-    // Laço que garante um email válido
-    do {
-        printf("///            E-mail: ");
-        fgets(morador->email, sizeof(morador->email), stdin);
-        remove_enter(morador->email);
-        if (valida_email(morador->email)){
-            break; // Sai do laço apenas se for válido
-        } else{
-            printf("///            Insira um E-MAIL válido!\n");
-        }
-    } while (1); // Mantém o laço até que seja valido
+    insira_email(morador->email, sizeof(morador->email));
 
     // Laço que garante um email válido
     do {
@@ -255,17 +245,7 @@ void atualizar_morador(void) {
 
             insira_data(morador->dat_nasc, sizeof(morador->dat_nasc));
 
-            // Laço que garante um email válido
-            do {
-                printf("///            E-mail: ");
-                fgets(morador->email, sizeof(morador->email), stdin);
-                remove_enter(morador->email);
-                if (valida_email(morador->email)){
-                    break; // Sai do laço apenas se for válido
-                } else{
-                    printf("///            Insira um E-MAIL válido!\n");
-                }
-            } while (1); // Mantém o laço até que seja valido
+            insira_email(morador->email, sizeof(morador->email));
 
             // Laço que garante um email válido
             do {
@@ -400,6 +380,19 @@ void insira_data(char* data, size_t tamanho) {
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira uma DATA válida!\n");
+        }
+    } while (1); // Mantém o laço até que seja valido
+}
+
+void insira_email(char* email, size_t tamanho) {
+    do {
+        printf("///            E-mail: ");
+        fgets(email, sizeof(tamanho), stdin);
+        remove_enter(email);
+        if (valida_email(email)){
+            break; // Sai do laço apenas se for válido
+        } else{
+            printf("///            Insira um E-MAIL válido!\n");
         }
     } while (1); // Mantém o laço até que seja valido
 }
