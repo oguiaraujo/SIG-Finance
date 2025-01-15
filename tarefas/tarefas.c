@@ -70,19 +70,7 @@ void cadastrar_tarefa(void){
 
     gera_id_tarefa(tarefa->id);
 
-    printf("///////////////////////////////////////////////////////////////////////////////\n");
-    printf("///           Tarefa cadastrada com sucesso                                 ///\n");
-    printf("///                                                                         ///\n");
-    printf("///           ID: %s", tarefa->id);
-    printf("\n");
-    printf("///           Descrição: %s", tarefa->descricao);
-    printf("\n");
-    printf("///           Prazo: %s", tarefa->prazo);
-    printf("\n");
-    printf("///                                                                         ///\n");
-    printf("///////////////////////////////////////////////////////////////////////////////\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar(); // Aguarda o usuário pressionar ENTER antes de voltar ao menu
+    exibir_tarefa(tarefa);
 
     salva_tarefa(tarefa);
     free(tarefa);
@@ -145,12 +133,12 @@ void exibir_tarefa(const Tarefas* tarefa) {
     }
 
     printf("\n////////////////////////////////////////////////////////////////////////////////\n");
-    printf("///          = = = = = Dados da tarefa = = = = = = = = = = = = =               ///\n");
-    printf("///                                                                            ///\n");
+    printf("///          = = = = = Dados da tarefa = = = = = = = = = = = = =             ///\n");
+    printf("///                                                                          ///\n");
     printf("///          ID: %s\n", tarefa->id);
     printf("///          Descrição: %s\n", tarefa->descricao);
     printf("///          Prazo: %s\n", tarefa->prazo);
-    printf("///                                                                            ///\n");
+    printf("///                                                                          ///\n");
     printf("\n////////////////////////////////////////////////////////////////////////////////\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
