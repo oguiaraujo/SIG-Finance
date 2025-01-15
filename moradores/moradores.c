@@ -159,10 +159,10 @@ void exibir_morador(const Moradores* morador) {
     printf("///            = = = = = Dados do Morador = = = = = = = = = = = = =         ///\n");
     printf("///                                                                         ///\n");
     printf("///            Nome: %s\n", morador->nome);
+    printf("///            CPF: %s\n", morador->cpf);
     printf("///            Data de Nascimento: %s\n", morador->dat_nasc);
     printf("///            E-mail: %s\n", morador->email);
     printf("///            Telefone: %s\n", morador->tel);
-    printf("///            CPF: %s\n", morador->cpf);
     printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
