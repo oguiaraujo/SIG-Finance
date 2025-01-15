@@ -2,7 +2,7 @@ typedef struct despesas Despesas;
 
 struct despesas {
     char cpf_responsavel[16];
-    char descricao[100];
+    char descricao[102];
     char valor[10];
     char data[12];
     char id[11];

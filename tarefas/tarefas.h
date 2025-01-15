@@ -3,7 +3,7 @@ typedef struct tarefas Tarefas;
 
 struct tarefas{
     char cpf_responsavel[16];
-    char descricao[100];
+    char descricao[102];
     char prazo[12];
     char id[11];
     char status;
