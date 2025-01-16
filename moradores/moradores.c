@@ -349,3 +349,42 @@ void insira_cpf(char* cpf, size_t tamanho) {
         }
     } while (1); // Mantém o laço até que seja valido
 }
+
+char* get_cpf_morador(char* cpf_procurado) {
+    FILE* fp;
+    Moradores* morador;
+    int encontrado = 0;
+
+    morador = (Moradores*) malloc(sizeof(Moradores)); // Aloca memória dinâmica
+    if (morador == NULL) {
+        printf("Erro ao alocar memória para o morador.\n");
+        exit(1);
+    }
+
+    fp = fopen("moradores.dat", "rb"); // Abre arquivo no modo de leitura
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        free(morador);
+        return NULL;
+    }
+
+    while (fread(morador, sizeof(Moradores), 1, fp)) {
+        if ((strcmp(morador->cpf, cpf_procurado) == 0) && (morador->status != 'i')) {  // Compara strings e verifica o status
+            encontrado = 1;
+            fclose(fp);
+            return(morador->cpf);
+        }
+    }
+
+    if (!encontrado) {
+        printf("///            CPF não encontrado!\n");
+        printf("///                                                                         ///\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();  // Pausa antes de voltar ao menu
+
+    }
+    fclose(fp);
+    free(morador);
+    return NULL;
+}
