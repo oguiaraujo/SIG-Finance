@@ -409,7 +409,7 @@ char* get_nome_morador(char* cpf_procurado) {
     }
 
     while (fread(morador, sizeof(Moradores), 1, fp)) {
-        if ((strcmp(morador->cpf, cpf_procurado) == 0) && (morador->status != 'i')) {  // Compara strings e verifica o status
+        if ((strcmp(morador->cpf, cpf_procurado) == 0)) {  // Compara strings e verifica o status
             encontrado = 1;
             copia_nome = (char*) malloc(strlen(morador->nome) + 1); // Aloca memória suficiente para o nome
             if (copia_nome == NULL) {
