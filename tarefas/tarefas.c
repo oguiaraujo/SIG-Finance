@@ -160,6 +160,7 @@ void atualizar_tarefa(void) {
     Tarefas* tarefa;
     char id_informado[11];
     int encontrado = 0;
+    char cpf_novo[13];
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Tarefa = = = = = = = = = = = = = = = =    ///\n");
@@ -188,6 +189,18 @@ void atualizar_tarefa(void) {
 
             exibir_tarefa(tarefa);
 
+            printf("/// Informe o CPF do novo RESPONSÁVEL!\n");
+            insira_cpf(cpf_novo, sizeof(tarefa->cpf_responsavel));
+
+            if (get_cpf_morador(cpf_novo) == NULL) {
+                free(tarefa);
+                fclose(fp);
+                return;
+            }
+
+            strncpy(tarefa->cpf_responsavel, cpf_novo, sizeof(tarefa->cpf_responsavel));
+            tarefa->cpf_responsavel[sizeof(tarefa->cpf_responsavel) - 1] = '\0';  // Garantir que termine em '\0'
+
             insira_descricao(tarefa->descricao, sizeof(tarefa->descricao));
 
             insira_prazo(tarefa->prazo, sizeof(tarefa->prazo));
@@ -195,19 +208,20 @@ void atualizar_tarefa(void) {
             fseek(fp, -sizeof(Tarefas), SEEK_CUR);
             fwrite(tarefa, sizeof(Tarefas), 1, fp);
 
-            printf("///              Dados atualizados com sucesso!\n");
+            printf("\n///              Dados atualizados com sucesso!\n");
+            exibir_tarefa(tarefa);
             break;
         }
     }
 
     if (!encontrado) {
         printf("///            Tarefa não encontrada!\n");
+        printf("///                                                                         ///\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
     }
 
-    printf("///                                                                         ///\n");
-    printf("///////////////////////////////////////////////////////////////////////////////\n");
-    printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
 
     fclose(fp);
     free(tarefa);
