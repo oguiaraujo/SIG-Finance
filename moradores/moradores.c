@@ -388,3 +388,51 @@ char* get_cpf_morador(char* cpf_procurado) {
     free(morador);
     return NULL;
 }
+
+char* get_nome_morador(char* cpf_procurado) {
+    FILE* fp;
+    Moradores* morador;
+    int encontrado = 0;
+    char* copia_nome = NULL;
+
+    morador = (Moradores*) malloc(sizeof(Moradores)); // Aloca memória dinâmica
+    if (morador == NULL) {
+        printf("Erro ao alocar memória para o morador.\n");
+        exit(1);
+    }
+
+    fp = fopen("moradores.dat", "rb"); // Abre arquivo no modo de leitura
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        free(morador);
+        return NULL;
+    }
+
+    while (fread(morador, sizeof(Moradores), 1, fp)) {
+        if ((strcmp(morador->cpf, cpf_procurado) == 0) && (morador->status != 'i')) {  // Compara strings e verifica o status
+            encontrado = 1;
+            copia_nome = (char*) malloc(strlen(morador->nome) + 1); // Aloca memória suficiente para o nome
+            if (copia_nome == NULL) {
+                printf("Erro ao alocar memória para o nome.\n");
+                fclose(fp);
+                free(morador);
+                return NULL;
+            }
+            strncpy(copia_nome, morador->nome, strlen(morador->nome) + 1); // Copia o nome
+            fclose(fp);
+            free(morador);
+            return copia_nome;
+        }
+    }
+    if (!encontrado) {
+        printf("///            CPF não encontrado!\n");
+        printf("///                                                                         ///\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();  // Pausa antes de voltar ao menu
+
+    }
+    fclose(fp);
+    free(morador);
+    return NULL;
+}
