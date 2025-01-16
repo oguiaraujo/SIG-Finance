@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "tarefas.h"
 #include "../funcoes/funcoes.h"
+#include "../moradores/moradores.h"
 
 void menu_tarefas(){
     Tarefas tarefa;
@@ -51,7 +52,6 @@ void menu_tarefas(){
 }
 
 void cadastrar_tarefa(void){
-    
     Tarefas* tarefa;
     tarefa = (Tarefas*) malloc(sizeof(Tarefas));
     if (tarefa == NULL) {
@@ -60,7 +60,15 @@ void cadastrar_tarefa(void){
     }
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Cadastrar Tarefa = = = = = = = = = = = = = = = =    ///\n");
-    printf("///                                                                         ///\n");
+    printf("///                                                                          ///\n");
+    printf("///            Insira o CPF do RESPONSÁVEL pela tarefa                       ///\n");
+
+    insira_cpf(tarefa->cpf_responsavel, sizeof(tarefa->cpf_responsavel));
+
+    if (get_cpf_morador(tarefa->cpf_responsavel) == NULL) {
+            free(tarefa);
+            return;
+        }
 
     insira_descricao(tarefa->descricao, sizeof(tarefa->descricao));
 
@@ -323,13 +331,13 @@ void insira_descricao(char* descricao, size_t tamanho) {
 
 void insira_prazo(char* prazo, size_t tamanho) {
     do {
-        printf("///      Prazo da tarefa (DD/MM/AAAA): ");
+        printf("///            Prazo da tarefa (DD/MM/AAAA): ");
         fgets(prazo, tamanho, stdin);
         remove_enter(prazo);
         if(valida_data(prazo)){
             break;
         } else{
-            printf("///      Insira uma DATA válida!\n");
+            printf("///            Insira uma DATA válida!\n");
         }
     } while(1);
 }
