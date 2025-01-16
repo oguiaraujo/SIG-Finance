@@ -139,18 +139,20 @@ void exibir_tarefa(const Tarefas* tarefa) {
         printf("/// Nenhuma tarefa encontrada.\n");
         return;
     }
+    char* nome = get_nome_morador(tarefa->cpf_responsavel);
 
     printf("\n////////////////////////////////////////////////////////////////////////////////\n");
     printf("///          = = = = = Dados da tarefa = = = = = = = = = = = = =             ///\n");
     printf("///                                                                          ///\n");
     printf("///          ID: %s\n", tarefa->id);
+    printf("///          Responsável: %s\n", nome);
     printf("///          Descrição: %s\n", tarefa->descricao);
     printf("///          Prazo: %s\n", tarefa->prazo);
     printf("///                                                                          ///\n");
     printf("\n////////////////////////////////////////////////////////////////////////////////\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
-
+    free(nome);
 }
 
 void atualizar_tarefa(void) {
