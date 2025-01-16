@@ -3,6 +3,7 @@
 #include <string.h>
 #include "reltarefas.h"
 #include "../tarefas/tarefas.h"
+#include "../moradores/moradores.h"
 
 void relatorios_tarefas(void) {
     int op;
@@ -68,7 +69,9 @@ void exibe_todas_tarefas(void) {
 
     while (fread(&tarefa, sizeof(Tarefas), 1, fp)) {
         encontrado = 1;
+        char* nome = get_nome_morador(tarefa.cpf_responsavel);
         printf("///            ID da Tarefa: %s\n", tarefa.id);
+        printf("///            Responsável: %s\n", nome);
         printf("///            Descrição: %s\n", tarefa.descricao);
         printf("///            Prazo: %s\n", tarefa.prazo);
         printf("///            status: %c\n", tarefa.status);
@@ -125,7 +128,9 @@ void exibe_tarefas_por_prazo(void) {
     while (fread(tarefa, sizeof(Tarefas), 1, fp) == 1) {
         if (tarefa->status == 'a' && strcmp(tarefa->prazo, prazo_informado) == 0) {
             encontrado = 1;
+            char* nome = get_nome_morador(tarefa->cpf_responsavel);
             printf("///            ID da Tarefa: %s\n", tarefa->id);
+            printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", tarefa->descricao);
             printf("///////////////////////////////////////////////////////////////////////////////\n"); 
         }
@@ -162,7 +167,9 @@ void exibe_tarefas_ativas(void) {
     while (fread(&tarefa, sizeof(Tarefas), 1, fp)) {
         if (tarefa.status == 'a') {
             encontrado = 1;
+            char* nome = get_nome_morador(tarefa.cpf_responsavel);
             printf("///            ID da Tarefa: %s\n", tarefa.id);
+            printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", tarefa.descricao);
             printf("///            Prazo: %s\n", tarefa.prazo);
             printf("///            status: %c\n", tarefa.status);
@@ -201,7 +208,9 @@ void exibe_tarefas_inativas(void) {
     while (fread(&tarefa, sizeof(Tarefas), 1, fp)) {
         if (tarefa.status == 'i') {
             encontrado = 1;
+            char* nome = get_nome_morador(tarefa.cpf_responsavel);
             printf("///            ID da Tarefa: %s\n", tarefa.id);
+            printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", tarefa.descricao);
             printf("///            Prazo: %s\n", tarefa.prazo);
             printf("///            status: %c\n", tarefa.status);
