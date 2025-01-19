@@ -3,6 +3,7 @@
 #include <string.h>
 #include "reldespesas.h"
 #include "../despesas/despesas.h"
+#include "../moradores/moradores.h"
 
 void relatorios_despesa(void) {
     int op;
@@ -70,6 +71,8 @@ void exibe_todas_despesas(void) {
 
     while (fread(&despesa, sizeof(Despesas), 1, fp)) {
         encontrou = 1;
+        char* nome = get_nome_morador(despesa.cpf_responsavel);
+        printf("///            Responsável: %s\n", nome);
         printf("///            Descrição: %s\n", despesa.descricao);
         printf("///            Valor: %s\n", despesa.valor);
         printf("///            Data: %s\n", despesa.data);
@@ -128,6 +131,8 @@ void exibe_despesa_por_dat (void) {
     while (fread(despesa,sizeof(Despesas), 1, fp) == 1) {
         if (despesa->status == 'a' && strcmp(despesa->data, data_informada) == 0) {
             encontrou = 1;
+            char* nome = get_nome_morador(despesa->cpf_responsavel);
+            printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa->descricao);
             printf("///            Valor: %s\n", despesa->valor);
             printf("///////////////////////////////////////////////////////////////////////////////\n");
@@ -187,6 +192,8 @@ void exibe_despesa_por_valor (void) {
     while (fread(despesa,sizeof(Despesas), 1, fp) == 1) {
         if (despesa->status == 'a' && strcmp(despesa->valor, valor_informada) == 0) {
             encontrou = 1;
+            char* nome = get_nome_morador(despesa->cpf_responsavel);
+            printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa->descricao);
             printf("///            Valor: %s\n", despesa->valor);
             printf("///////////////////////////////////////////////////////////////////////////////\n");
@@ -223,6 +230,8 @@ void exibe_despesas_ativas(void) {
     while (fread(&despesa, sizeof(Despesas), 1, fp)) {
         if (despesa.status == 'a') {
             encontrou = 1;
+            char* nome = get_nome_morador(despesa.cpf_responsavel);
+            printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa.descricao);
             printf("///            Valor: %s\n", despesa.valor);
             printf("///            Data: %s\n", despesa.data);
@@ -259,6 +268,8 @@ void exibe_despesas_inativas(void) {
     while (fread(&despesa, sizeof(Despesas), 1, fp)) {
         if (despesa.status == 'i') {
             encontrou = 1;
+            char* nome = get_nome_morador(despesa.cpf_responsavel);
+            printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa.descricao);
             printf("///            Valor: %s\n", despesa.valor);
             printf("///            Data: %s\n", despesa.data);
