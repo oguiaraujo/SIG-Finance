@@ -92,9 +92,7 @@ Despesas* cadastrar_despesa(void) {
         }
     } while (1); // Mantém o laço até quw seja valido
 
-    printf("///            id : ");
-    fgets(despesa->id, sizeof(despesa->id), stdin);
-    remove_enter(despesa->id);
+    gera_id_despesas(despesa->id);
 
     despesa->status = 'a';
 
@@ -315,4 +313,31 @@ void salva_despesa(Despesas* despesa) {
     }
     fwrite(despesa, sizeof(Despesas), 1, fp);
     fclose(fp);
+}
+
+void gera_id_despesas(char* id_despesas) {
+    FILE *fp;
+    int contador = 0;
+
+    fp = fopen("id_despesas", "rb+");
+    if (fp == NULL) {
+        fp = fopen("id_despesas", "wb");
+
+        if (fp == NULL) {
+            printf("Erro ao acessar o arquivo de IDs para tarefas!\n");
+            exit(1);
+        }
+        contador = 1;
+
+    } else {
+        fread(&contador, sizeof(int), 1, fp);
+        contador++;
+    }
+
+    rewind(fp);
+    fwrite(&contador, sizeof(int), 1, fp);
+
+    fclose(fp);
+
+    sprintf(id_despesas, "DES-%05d", contador);
 }

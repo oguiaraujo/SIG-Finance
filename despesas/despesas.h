@@ -14,3 +14,4 @@ Despesas* cadastrar_despesa(void);
 Despesas* pesquisar_despesa(void);
 void atualizar_despesa(void);
 void excluir_despesa(void);
+void gera_id_despesas(char*);
