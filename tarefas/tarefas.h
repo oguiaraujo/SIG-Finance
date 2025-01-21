@@ -12,7 +12,7 @@ struct tarefas{
 typedef struct lista_tar Lista_tar;
 
 struct lista_tar {
-    Tarefas* trf;
+    Tarefas* tar;
     Lista_tar* prox;
 };
 
