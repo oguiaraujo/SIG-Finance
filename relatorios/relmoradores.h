@@ -8,3 +8,4 @@ void exibe_moradores_inativos(void);
 void moradores_alfabeticamente(void);
 Lista* lista_alfabetica(void);
 void exibe_lista(Lista* primeiro);
+void free_lista(Lista* primeiro);

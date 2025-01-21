@@ -99,7 +99,7 @@ void moradores_alfabeticamente(void) {
 
     Lista* primeiro = lista_alfabetica();
     exibe_lista(primeiro);
-    // Função de Exibir Lista em desenvolvimento...
+    free_lista(primeiro);
 
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
@@ -245,6 +245,7 @@ void exibe_moradores_inativos(void) {
     fclose(fp);
 }
 
+// Adaptado do SIG-DietPlan (https://github.com/Diego-Axel/SIG-DietPlan.git)
 Lista* lista_alfabetica(void) {
     FILE* fp;
     Moradores* mrd;
@@ -305,5 +306,15 @@ void exibe_lista(Lista* primeiro) {
         printf("///            CPF: %s\n", primeiro->mrd->cpf);
         printf("///////////////////////////////////////////////////////////////////////////////\n");
         primeiro = primeiro->prox;
+    }
+}
+
+// Créditos: Flavius Gorgônio @flgorgonio
+void free_lista(Lista* primeiro) {
+    Lista *p = primeiro;
+    while (p != NULL){
+        Lista *t = p->prox;
+        free(p);
+        p = t;
     }
 }
