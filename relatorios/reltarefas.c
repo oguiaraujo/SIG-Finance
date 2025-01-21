@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "reltarefas.h"
-#include "../tarefas/tarefas.h"
 #include "../moradores/moradores.h"
 
 void relatorios_tarefas(void) {
@@ -14,9 +13,10 @@ void relatorios_tarefas(void) {
     printf("///            = = = = = Relatório de Tarefas = = = = = = = = = = = = =       ///\n");
     printf("///                                                                           ///\n");
     printf("///            1. Todos as Tarefas                                            ///\n");
-    printf("///            2. Tarefas por Prazo                                           ///\n");
-    printf("///            3. Terefas Ativas                                              ///\n");
-    printf("///            4. Tarefas Inativas                                            ///\n");
+    printf("///            2. Todas as Tarefas (ordenadas por prazo)                      ///\n");
+    printf("///            3. Tarefas por Prazo                                           ///\n");
+    printf("///            4. Terefas Ativas                                              ///\n");
+    printf("///            5. Tarefas Inativas                                            ///\n");
     printf("///            0. Voltar                                                      ///\n");
     printf("///                                                                           ///\n");
     printf("///            Escolha a opção desejada: ");
@@ -28,12 +28,15 @@ void relatorios_tarefas(void) {
         exibe_todas_tarefas();
         break;
     case 2:
-        exibe_tarefas_por_prazo();
+        exibe_prazos_ordenados();
         break;
     case 3:
-        exibe_tarefas_ativas();
+        exibe_tarefas_por_prazo();
         break;
     case 4:
+        exibe_tarefas_ativas();
+        break;
+    case 5:
         exibe_tarefas_inativas();
         break;
     case 0:
@@ -146,6 +149,18 @@ void exibe_tarefas_por_prazo(void) {
 
     free(tarefa);
     fclose(fp);
+}
+
+void exibe_prazos_ordenados(void) {
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                Lista de Tarefas com prazos ordenados                    ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    
+    // Funções em desenvolvimento
+
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
 }
 
 void exibe_tarefas_ativas(void) {
