@@ -98,6 +98,7 @@ void moradores_alfabeticamente(void) {
     printf("///////////////////////////////////////////////////////////////////////////////\n");
 
     Lista* primeiro = lista_alfabetica();
+    exibe_lista(primeiro);
     // Função de Exibir Lista em desenvolvimento...
 
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
@@ -285,4 +286,24 @@ Lista* lista_alfabetica(void) {
     } while(1);
     fclose(fp);
     return primeiro;
+}
+
+void exibe_lista(Lista* primeiro) {
+    if (primeiro == NULL) {
+        printf("/// Nenhum morador cadastrado!\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+        return;
+    }
+
+    while (primeiro != NULL) {
+        printf("///            Nome: %s\n", primeiro->mrd->nome);
+        printf("///            Data de Nascimento: %s\n", primeiro->mrd->dat_nasc);
+        printf("///            E-mail: %s\n", primeiro->mrd->email);
+        printf("///            Telefone: %s\n", primeiro->mrd->tel);
+        printf("///            CPF: %s\n", primeiro->mrd->cpf);
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        primeiro = primeiro->prox;
+    }
 }
