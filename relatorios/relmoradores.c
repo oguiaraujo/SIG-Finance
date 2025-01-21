@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "relmoradores.h"
-#include "../moradores/moradores.h"
 
 void relatorios_morador(void) {
     int op;
@@ -98,7 +97,8 @@ void moradores_alfabeticamente(void) {
     printf("///                     Lista de Todos os Moradores                        ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
 
-    // Funções em desenvolvimento...
+    Lista* primeiro = lista_alfabetica();
+    // Função de Exibir Lista em desenvolvimento...
 
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
@@ -242,4 +242,47 @@ void exibe_moradores_inativos(void) {
     getchar();
 
     fclose(fp);
+}
+
+Lista* lista_alfabetica(void) {
+    FILE* fp;
+    Moradores* mrd;
+    Lista* novo;
+    Lista* primeiro = NULL;
+
+    fp = fopen("moradores.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao tentar abrir o arquivo de moradores!\n");
+        return 0;
+    }
+
+    do {
+        mrd = (Moradores*) malloc(sizeof(Moradores));
+        if (fread(mrd, sizeof(Moradores), 1, fp) != 1) {
+            free(mrd);
+            break;
+        }
+
+        novo = (Lista*) malloc(sizeof(Lista));
+        novo->mrd = mrd;
+        novo->prox = NULL;
+
+        if (primeiro == NULL) {
+            primeiro = novo;
+        } else if (strcmp(novo->mrd->nome, primeiro->mrd->nome) < 0) {
+            novo->prox = primeiro;
+            primeiro = novo;
+        } else {
+            Lista* anterior = primeiro;
+            Lista* atual = primeiro->prox;
+            while ((atual != NULL) && (strcmp(novo->mrd->nome, atual->mrd->nome) > 0)) {
+                anterior = atual;
+                atual = atual->prox;
+            }
+            anterior->prox = novo;
+            novo->prox = atual;
+        }
+    } while(1);
+    fclose(fp);
+    return primeiro;
 }
