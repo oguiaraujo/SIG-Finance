@@ -9,6 +9,12 @@ struct tarefas{
     char status;
 };
 
+typedef struct lista_tar Lista_tar;
+
+struct lista_tar {
+    Tarefas* trf;
+    Lista_tar* prox;
+};
 
 void menu_tarefas(void);
 void cadastrar_tarefa(void);
