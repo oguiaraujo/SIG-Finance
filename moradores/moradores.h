@@ -10,6 +10,13 @@ struct moradores {
     char status;
 };
 
+typedef struct lista Lista;
+
+struct lista {
+    Moradores* mrd;
+    Lista* prox;
+};
+
 void menu_moradores(void);
 void cadastrar_morador(void);
 void pesquisar_morador(void);
