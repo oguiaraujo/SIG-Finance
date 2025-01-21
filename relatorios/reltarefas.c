@@ -158,6 +158,7 @@ void exibe_prazos_ordenados(void) {
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     
     Lista_tar* primeiro = prazos_ordenados();
+    mostra_prazos_ordenados(primeiro);
     // Funções em desenvolvimento
 
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
@@ -298,4 +299,26 @@ Lista_tar* prazos_ordenados(void) {
     } while(1);
     fclose(fp);
     return primeiro;
+}
+
+
+void mostra_prazos_ordenados(Lista_tar* primeiro) {
+    if (primeiro == NULL) {
+        printf("/// Nenhuma tarefa cadastrada!\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+        return;
+    }
+
+    while (primeiro != NULL) {
+            char* nome = get_nome_morador(primeiro->tar->cpf_responsavel);
+            printf("///            ID da Tarefa: %s\n", primeiro->tar->id);
+            printf("///            Responsável: %s\n", nome);
+            printf("///            Descrição: %s\n", primeiro->tar->descricao);
+            printf("///            Prazo: %s\n", primeiro->tar->prazo);
+            printf("///            status: %c\n", primeiro->tar->status);
+            printf("///////////////////////////////////////////////////////////////////////////////\n");
+        primeiro = primeiro->prox;
+    }
 }
