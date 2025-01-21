@@ -49,7 +49,7 @@ void menu_despesas(void){
 }
 
 Despesas* cadastrar_despesa(void) {
-
+    system("clear||cls");
     Despesas* despesa;
     despesa = (Despesas*) malloc(sizeof(Despesas));
     if (despesa == NULL) {
@@ -62,6 +62,10 @@ Despesas* cadastrar_despesa(void) {
     printf("///                                                                         ///\n");
     printf("/// Informe os dados da despesa:                                            ///\n");
     
+    printf("///            Responsavel: ");
+    fgets(despesa->cpf_responsavel, sizeof(despesa->cpf_responsavel), stdin);
+    remove_enter(despesa->cpf_responsavel);
+
     printf("///            Descrição: ");
     fgets(despesa->descricao, sizeof(despesa->descricao), stdin);
     remove_enter(despesa->descricao);
@@ -88,22 +92,10 @@ Despesas* cadastrar_despesa(void) {
         }
     } while (1); // Mantém o laço até quw seja valido
 
-    printf("///            id : ");
-    fgets(despesa->id, sizeof(despesa->id), stdin);
-    remove_enter(despesa->id);
+    gera_id_despesas(despesa->id);
 
     despesa->status = 'a';
 
-    printf("///////////////////////////////////////////////////////////////////////////////\n");
-    printf("///            Despesa cadastrada com sucesso!                              ///\n");
-    printf("///            Descrição: %s", despesa->descricao);
-    printf("\n");
-    printf("///            Valor: %s", despesa->valor);
-    printf("\n");
-    printf("///            Data: %s", despesa->data);
-    printf("\n");
-    printf("///            Data: %s", despesa->id);
-    printf("\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     getchar();  // Aguarda o usuário pressionar Enter
 
@@ -113,7 +105,7 @@ Despesas* cadastrar_despesa(void) {
 }
 
 Despesas* pesquisar_despesa(void) {
-
+    system("clear||cls");
     FILE* fp;
     Despesas* despesa;
     char id_informado[5];
@@ -160,6 +152,7 @@ Despesas* pesquisar_despesa(void) {
 }
 
 void exibir_despesa(const Despesas* despesa) {
+    system("clear||cls");
     if (despesa == NULL) {
         printf("/// Nenhuma despesa encontrada.\n");
         return;
@@ -181,6 +174,7 @@ void exibir_despesa(const Despesas* despesa) {
 
 
 void atualizar_despesa(void) {
+    system("clear||cls");
     FILE* fp;
     Despesas* despesa;
     char id_informado[5];
@@ -258,6 +252,7 @@ void atualizar_despesa(void) {
 }
 
 void excluir_despesa() {
+    system("clear||cls");
     FILE* fp;
     Despesas* despesa;
     char id_informado[5];
@@ -318,4 +313,31 @@ void salva_despesa(Despesas* despesa) {
     }
     fwrite(despesa, sizeof(Despesas), 1, fp);
     fclose(fp);
+}
+
+void gera_id_despesas(char* id_despesas) {
+    FILE *fp;
+    int contador = 0;
+
+    fp = fopen("id_despesas", "rb+");
+    if (fp == NULL) {
+        fp = fopen("id_despesas", "wb");
+
+        if (fp == NULL) {
+            printf("Erro ao acessar o arquivo de IDs para tarefas!\n");
+            exit(1);
+        }
+        contador = 1;
+
+    } else {
+        fread(&contador, sizeof(int), 1, fp);
+        contador++;
+    }
+
+    rewind(fp);
+    fwrite(&contador, sizeof(int), 1, fp);
+
+    fclose(fp);
+
+    sprintf(id_despesas, "DES-%05d", contador);
 }
