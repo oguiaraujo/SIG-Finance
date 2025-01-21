@@ -3,3 +3,4 @@ void exibe_todos_moradores(void);
 void exibe_morador_por_dat_nasc (void);
 void exibe_moradores_ativos(void);
 void exibe_moradores_inativos(void);
+void moradores_alfabeticamente(void);

@@ -13,9 +13,10 @@ void relatorios_morador(void) {
     printf("///            = = = = = Relatório de Moradores = = = = = = = = = = = = =     ///\n");
     printf("///                                                                           ///\n");
     printf("///            1. Todos os Moradores                                          ///\n");
-    printf("///            2. Moradores por Data de Nascimento                            ///\n");
-    printf("///            3. Moradores Ativos                                            ///\n");
-    printf("///            4. Moradores Inativos                                          ///\n");
+    printf("///            2. Todos os Moradores (em ordem alfabética)                    ///\n");
+    printf("///            3. Moradores por Data de Nascimento                            ///\n");
+    printf("///            4. Moradores Ativos                                            ///\n");
+    printf("///            5. Moradores Inativos                                          ///\n");
     printf("///            0. Voltar                                                      ///\n");
     printf("///                                                                           ///\n");
     printf("///            Escolha a opção desejada: ");
@@ -27,12 +28,15 @@ void relatorios_morador(void) {
         exibe_todos_moradores();
         break;
     case 2:
-        exibe_morador_por_dat_nasc();
+        moradores_alfabeticamente();
         break;
     case 3:
-        exibe_moradores_ativos();
+        exibe_morador_por_dat_nasc();
         break;
     case 4:
+        exibe_moradores_ativos();
+        break;
+    case 5:
         exibe_moradores_inativos();
         break;
     case 0:
@@ -86,6 +90,18 @@ void exibe_todos_moradores(void) {
     getchar();
 
     fclose(fp);
+}
+
+void moradores_alfabeticamente(void) {
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                     Lista de Todos os Moradores                        ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+
+    // Funções em desenvolvimento...
+
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
 }
 
 void exibe_morador_por_dat_nasc (void) {
