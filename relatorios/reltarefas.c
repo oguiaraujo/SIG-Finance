@@ -157,6 +157,7 @@ void exibe_prazos_ordenados(void) {
     printf("///                Lista de Tarefas com prazos ordenados                    ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     
+    Lista_tar* primeiro = prazos_ordenados();
     // Funções em desenvolvimento
 
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
@@ -243,4 +244,58 @@ void exibe_tarefas_inativas(void) {
     getchar();
 
     fclose(fp);
+}
+
+// Adaptado do SIG-DietPlan (https://github.com/Diego-Axel/SIG-DietPlan.git) com ajuda do ChatGPT
+Lista_tar* prazos_ordenados(void) {
+    FILE* fp;
+    Tarefas* tar;
+    Lista_tar* novo;
+    Lista_tar* primeiro = NULL;
+
+    fp = fopen("tarefas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        return 0;
+    }
+
+    do {
+        tar = (Tarefas*) malloc(sizeof(Tarefas));
+        if (fread(tar, sizeof(Tarefas), 1, fp) != 1) {
+            free(tar);
+            break;
+        }
+
+        novo = (Lista_tar*) malloc(sizeof(Lista_tar));
+        novo->tar = tar;
+        novo->prox = NULL;
+
+        if (primeiro == NULL) {
+            primeiro = novo;
+        } else if (strcmp(novo->tar->prazo + 6, primeiro->tar->prazo + 6) > 0 || 
+                   (strcmp(novo->tar->prazo + 6, primeiro->tar->prazo + 6) == 0 && 
+                    strcmp(novo->tar->prazo + 3, primeiro->tar->prazo + 3) > 0) ||
+                   (strcmp(novo->tar->prazo + 6, primeiro->tar->prazo + 6) == 0 &&
+                    strcmp(novo->tar->prazo + 3, primeiro->tar->prazo + 3) == 0 &&
+                    strcmp(novo->tar->prazo, primeiro->tar->prazo) > 0) < 0) {
+            novo->prox = primeiro;
+            primeiro = novo;
+        } else {
+            Lista_tar* anterior = primeiro;
+            Lista_tar* atual = primeiro->prox;
+            while ((atual != NULL) && (strcmp(novo->tar->prazo + 6, atual->tar->prazo + 6) < 0 ||
+                  (strcmp(novo->tar->prazo + 6, atual->tar->prazo + 6) == 0 &&
+                   strcmp(novo->tar->prazo + 3, atual->tar->prazo + 3) < 0) ||
+                  (strcmp(novo->tar->prazo + 6, atual->tar->prazo + 6) == 0 &&
+                   strcmp(novo->tar->prazo + 3, atual->tar->prazo + 3) == 0 &&
+                   strcmp(novo->tar->prazo, atual->tar->prazo) < 0))) {
+                anterior = atual;
+                atual = atual->prox;
+            }
+            anterior->prox = novo;
+            novo->prox = atual;
+        }
+    } while(1);
+    fclose(fp);
+    return primeiro;
 }
