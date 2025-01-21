@@ -159,7 +159,7 @@ void exibe_prazos_ordenados(void) {
     
     Lista_tar* primeiro = prazos_ordenados();
     mostra_prazos_ordenados(primeiro);
-    // Funções em desenvolvimento
+    free_prazos_ordenados(primeiro);
 
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
@@ -320,5 +320,15 @@ void mostra_prazos_ordenados(Lista_tar* primeiro) {
             printf("///            status: %c\n", primeiro->tar->status);
             printf("///////////////////////////////////////////////////////////////////////////////\n");
         primeiro = primeiro->prox;
+    }
+}
+
+// Créditos: Flavius Gorgônio @flgorgonio
+void free_prazos_ordenados(Lista_tar* primeiro) {
+    Lista *p = primeiro;
+    while (p != NULL){
+        Lista *t = p->prox;
+        free(p);
+        p = t;
     }
 }
