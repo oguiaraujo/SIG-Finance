@@ -160,7 +160,9 @@ void exibir_despesa(const Despesas* despesa) {
     }
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///                                                                         ///\n");
-     printf("///           Responsavel: %s", despesa->cpf_responsavel);
+    printf("///          ID: %s\n", despesa->id);
+    printf("\n");
+    printf("///           Responsavel: %s", despesa->cpf_responsavel);
     printf("\n");
     printf("///            Descrição: %s", despesa->descricao);
     printf("\n");
@@ -329,9 +331,9 @@ void gera_id_despesas(char* id_despesas) {
     FILE *fp;
     int contador = 0;
 
-    fp = fopen("id_despesas", "rb+");
+    fp = fopen("id_despesas.dat", "rb+");
     if (fp == NULL) {
-        fp = fopen("id_despesas", "wb");
+        fp = fopen("id_despesas.dat", "wb");
 
         if (fp == NULL) {
             printf("Erro ao acessar o arquivo de IDs para tarefas!\n");
