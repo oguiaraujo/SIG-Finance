@@ -9,6 +9,13 @@ struct despesas {
     char status;
 };
 
+typedef struct lista_des Lista_des;
+
+struct lista_des {
+    Despesas* tar;
+    Lista_des* prox;
+};
+
 void menu_despesas(void);
 Despesas* cadastrar_despesa(void);
 Despesas* pesquisar_despesa(void);
