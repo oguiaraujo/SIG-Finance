@@ -14,10 +14,11 @@ void relatorios_despesa(void) {
     printf("///            = = = = = Relatório de Moradores = = = = = = = = = = = = =     ///\n");
     printf("///                                                                           ///\n");
     printf("///            1. Todas as Despesas                                           ///\n");
-    printf("///            2. Despesas por Data                                           ///\n");
-    printf("///            3. Despesas por Valor                                          ///\n");
-    printf("///            4. Despesas Ativas                                             ///\n");
-    printf("///            5. Despesas Inativas                                           ///\n");
+    printf("///            2. Todas as Despesas(ordenados por data)                       ///\n");
+    printf("///            3. Despesas por Data                                           ///\n");
+    printf("///            4. Despesas por Valor                                          ///\n");
+    printf("///            5. Despesas Ativas                                             ///\n");
+    printf("///            6. Despesas Inativas                                           ///\n");
     printf("///            0. Voltar                                                      ///\n");
     printf("///                                                                           ///\n");
     printf("///            Escolha a opção desejada: ");
@@ -29,15 +30,18 @@ void relatorios_despesa(void) {
         exibe_todas_despesas();
         break;
     case 2:
-        exibe_despesa_por_dat();
+        exibe_datas_ordenadas();
         break;
     case 3:
-        exibe_despesa_por_valor();
+        exibe_despesa_por_dat();
         break;
     case 4:
-        exibe_despesas_ativas();
+        exibe_despesa_por_valor();
         break;
     case 5:
+        exibe_despesas_ativas();
+        break;
+    case 6:
         exibe_despesas_inativas();
         break;
      case 0:
@@ -288,3 +292,13 @@ void exibe_despesas_inativas(void) {
     fclose(fp);
 }
 
+void exibe_datas_ordenadas(void) {
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                Lista de Tarefas com prazos ordenados                    ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    
+    
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}

@@ -4,3 +4,4 @@ void exibe_despesa_por_dat(void);
 void exibe_despesa_por_valor(void);
 void exibe_despesas_ativas(void);
 void exibe_despesas_inativas(void);
+void exibe_datas_ordenadas(void);
