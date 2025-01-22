@@ -274,22 +274,22 @@ Lista_tar* prazos_ordenados(void) {
         if (primeiro == NULL) {
             primeiro = novo;
         } else if (strcmp(novo->tar->prazo + 6, primeiro->tar->prazo + 6) > 0 || 
-                   (strcmp(novo->tar->prazo + 6, primeiro->tar->prazo + 6) == 0 && 
-                    strcmp(novo->tar->prazo + 3, primeiro->tar->prazo + 3) > 0) ||
-                   (strcmp(novo->tar->prazo + 6, primeiro->tar->prazo + 6) == 0 &&
-                    strcmp(novo->tar->prazo + 3, primeiro->tar->prazo + 3) == 0 &&
-                    strcmp(novo->tar->prazo, primeiro->tar->prazo) > 0) < 0) {
+               (strcmp(novo->tar->prazo + 6, primeiro->tar->prazo + 6) == 0 && 
+                strcmp(novo->tar->prazo + 3, primeiro->tar->prazo + 3) > 0) ||
+               (strcmp(novo->tar->prazo + 6, primeiro->tar->prazo + 6) == 0 &&
+                strcmp(novo->tar->prazo + 3, primeiro->tar->prazo + 3) == 0 &&
+                strcmp(novo->tar->prazo, primeiro->tar->prazo) > 0)) {
             novo->prox = primeiro;
             primeiro = novo;
         } else {
             Lista_tar* anterior = primeiro;
             Lista_tar* atual = primeiro->prox;
             while ((atual != NULL) && (strcmp(novo->tar->prazo + 6, atual->tar->prazo + 6) < 0 ||
-                  (strcmp(novo->tar->prazo + 6, atual->tar->prazo + 6) == 0 &&
-                   strcmp(novo->tar->prazo + 3, atual->tar->prazo + 3) < 0) ||
-                  (strcmp(novo->tar->prazo + 6, atual->tar->prazo + 6) == 0 &&
-                   strcmp(novo->tar->prazo + 3, atual->tar->prazo + 3) == 0 &&
-                   strcmp(novo->tar->prazo, atual->tar->prazo) < 0))) {
+                (strcmp(novo->tar->prazo + 6, atual->tar->prazo + 6) == 0 &&
+                strcmp(novo->tar->prazo + 3, atual->tar->prazo + 3) < 0) ||
+                (strcmp(novo->tar->prazo + 6, atual->tar->prazo + 6) == 0 &&
+                strcmp(novo->tar->prazo + 3, atual->tar->prazo + 3) == 0 &&
+                strcmp(novo->tar->prazo, atual->tar->prazo) < 0))) {
                 anterior = atual;
                 atual = atual->prox;
             }

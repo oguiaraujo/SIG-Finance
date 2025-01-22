@@ -79,6 +79,7 @@ void exibe_todas_despesas(void) {
     while (fread(&despesa, sizeof(Despesas), 1, fp)) {
         encontrou = 1;
         char* nome = get_nome_morador(despesa.cpf_responsavel);
+        printf("///            ID: %s\n", despesa.id);
         printf("///            Responsável: %s\n", nome);
         printf("///            Descrição: %s\n", despesa.descricao);
         printf("///            Valor: %i\n", despesa.valor);
@@ -139,6 +140,7 @@ void exibe_despesa_por_dat (void) {
         if (despesa->status == 'a' && strcmp(despesa->data, data_informada) == 0) {
             encontrou = 1;
             char* nome = get_nome_morador(despesa->cpf_responsavel);
+            printf("///            ID: %s\n", despesa->id);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa->descricao);
             printf("///            Valor: %i\n", despesa->valor);
@@ -200,6 +202,7 @@ void exibe_despesa_por_valor (void) {
         if (despesa->status == 'a' && strcmp(despesa->valor, valor_informada) == 0) {
             encontrou = 1;
             char* nome = get_nome_morador(despesa->cpf_responsavel);
+            printf("///            ID: %s\n", despesa->id);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa->descricao);
             printf("///            Data: %s\n", despesa->data);
@@ -238,6 +241,7 @@ void exibe_despesas_ativas(void) {
         if (despesa.status == 'a') {
             encontrou = 1;
             char* nome = get_nome_morador(despesa.cpf_responsavel);
+            printf("///            ID: %s\n", despesa.id);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa.descricao);
             printf("///            Valor: %i\n", despesa.valor);
@@ -276,6 +280,7 @@ void exibe_despesas_inativas(void) {
         if (despesa.status == 'i') {
             encontrou = 1;
             char* nome = get_nome_morador(despesa.cpf_responsavel);
+            printf("///            ID: %s\n", despesa.id);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa.descricao);
             printf("///            Valor: %i\n", despesa.valor);
@@ -335,7 +340,7 @@ void mostra_datas_ordenadas(Lista_des* primeiro) {
 
     while (primeiro != NULL) {
             char* nome = get_nome_morador(primeiro->des->cpf_responsavel);
-            printf("///            ID da Tarefa: %s\n", primeiro->des->id);
+            printf("///            ID: %s\n", primeiro->des->id);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", primeiro->des->descricao);
             printf("///            Data: %s\n", primeiro->des->data);
@@ -382,22 +387,22 @@ Lista_des* datas_ordenadas(void) {
         if (primeiro == NULL) {
             primeiro = novo;
         } else if (strcmp(novo->des->data + 6, primeiro->des->data + 6) > 0 || 
-                   (strcmp(novo->des->data + 6, primeiro->des->data + 6) == 0 && 
-                    strcmp(novo->des->data + 3, primeiro->des->data + 3) > 0) ||
-                   (strcmp(novo->des->data + 6, primeiro->des->data + 6) == 0 &&
-                    strcmp(novo->des->data + 3, primeiro->des->data + 3) == 0 &&
-                    strcmp(novo->des->data, primeiro->des->data) > 0) < 0) {
+           (strcmp(novo->des->data + 6, primeiro->des->data + 6) == 0 && 
+            strcmp(novo->des->data + 3, primeiro->des->data + 3) > 0) ||
+           (strcmp(novo->des->data + 6, primeiro->des->data + 6) == 0 &&
+            strcmp(novo->des->data + 3, primeiro->des->data + 3) == 0 &&
+            strcmp(novo->des->data, primeiro->des->data) > 0)) {
             novo->prox = primeiro;
             primeiro = novo;
         } else {
             Lista_des* anterior = primeiro;
             Lista_des* atual = primeiro->prox;
             while ((atual != NULL) && (strcmp(novo->des->data + 6, atual->des->data + 6) < 0 ||
-                  (strcmp(novo->des->data + 6, atual->des->data + 6) == 0 &&
-                   strcmp(novo->des->data + 3, atual->des->data + 3) < 0) ||
-                  (strcmp(novo->des->data + 6, atual->des->data + 6) == 0 &&
-                   strcmp(novo->des->data + 3, atual->des->data + 3) == 0 &&
-                   strcmp(novo->des->data, atual->des->data) < 0))) {
+                (strcmp(novo->des->data + 6, atual->des->data + 6) == 0 &&
+                strcmp(novo->des->data + 3, atual->des->data + 3) < 0) ||
+                (strcmp(novo->des->data + 6, atual->des->data + 6) == 0 &&
+                strcmp(novo->des->data + 3, atual->des->data + 3) == 0 &&
+                strcmp(novo->des->data, atual->des->data) < 0))) {
                 anterior = atual;
                 atual = atual->prox;
             }
@@ -463,7 +468,7 @@ void mostra_valor_ordenado(Lista_des* primeiro) {
 
     while (primeiro != NULL) {
             char* nome = get_nome_morador(primeiro->des->cpf_responsavel);
-            printf("///            ID da Tarefa: %s\n", primeiro->des->id);
+            printf("///            ID: %s\n", primeiro->des->id);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", primeiro->des->descricao);
             printf("///            Data: %s\n", primeiro->des->data);
