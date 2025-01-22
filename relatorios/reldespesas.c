@@ -408,7 +408,7 @@ Lista_des* datas_ordenadas(void) {
     fclose(fp);
     return primeiro;
 }
-
+//Créditos: @fillipemdrs https://github.com/Diego-Axel/SIG-DietPlan.git
 Lista_des* valor_ordenado(void) {
     FILE* fp;
     Despesas* des;

@@ -110,34 +110,34 @@ Despesas* pesquisar_despesa(void) {
     FILE* fp;
     Despesas* despesa;
     char id_informado[11];
+    int encontrado = 0;
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Pesquisar Despesa      = = = = = = = = = = = = = = ///\n");
     printf("///                                                                         ///\n");
-    printf("/// Informe o id da despesa:                                                ///\n");
+    
+   printf("/// Informe o ID da tarefa (DES-XXXXX): ");
     fgets(id_informado, sizeof(id_informado), stdin);
     remove_enter(id_informado);
 
-    despesa = (Despesas*) malloc(sizeof(Despesas)); // Aloca memória dinâmica
+    despesa = (Despesas*) malloc(sizeof(Despesas));
     if (despesa == NULL) {
-        printf("Erro ao alocar memória para a despesa.\n");
+        printf("Erro ao alocar memória para o morador.\n");
         exit(1);
     }
 
-    fp = fopen("despesas.dat", "rb"); // Abre arquivo no modo de leitura
+    fp = fopen("despesas.dat", "rb");
     if (fp == NULL) {
         printf("Erro na abertura do arquivo!\n");
         free(despesa);
         return NULL;
+
     }
 
     while (fread(despesa, sizeof(Despesas), 1, fp)) {
-        if ((strcmp(despesa->id, id_informado) == 0) && (despesa->status != 'i')) {  // Compara strings e verifica o status
-            fclose(fp);
+        if ((strcmp(despesa->id, id_informado)== 0) && (despesa->status != 'i')) {
+            encontrado = 1;
             exibir_despesa(despesa);
-            return despesa;  // Retorna o despesa encontrado
-        } else {
-            printf("///            ID não encontrado!\n");
             break;
         }
     }
@@ -160,16 +160,16 @@ void exibir_despesa(const Despesas* despesa) {
     }
     printf("///////////////////////////////////////////////////////////////////////////////\n");
     printf("///                                                                         ///\n");
+     printf("///           Responsavel: %s", despesa->cpf_responsavel);
+    printf("\n");
     printf("///            Descrição: %s", despesa->descricao);
     printf("\n");
     printf("///            Valor: %i", despesa->valor);
     printf("\n");
     printf("///            Data: %s", despesa->data);
     printf("\n");
-    printf("///            Data: %s", despesa->id);
-    printf("\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\n\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();  // Aguarda o usuário pressionar Enter
 }
 
@@ -180,68 +180,73 @@ void atualizar_despesa(void) {
     Despesas* despesa;
     char id_informado[11];
     char valor_int[10];
+    int encontrado = 0;
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Despesa      = = = = = = = = = = = = = = ///\n");
     printf("///                                                                         ///\n");
 
-    printf("/// Informe o id da despesa:                                                ///\n");
+    printf("/// Informe o ID da despesa (DES-XXXXX) que deseja atualizar: ");
     fgets(id_informado, sizeof(id_informado), stdin);
     remove_enter(id_informado);
 
-    despesa = (Despesas*) malloc(sizeof(Despesas)); // Aloca memória dinâmica
+    despesa = (Despesas*) malloc(sizeof(Despesas));
     if (despesa == NULL) {
-        printf("Erro ao alocar memória para a despesa.\n");
+        printf("Erro ao alocar memória para o morador.\n");
         exit(1);
     }
 
-    fp = fopen("despesas.dat", "r+b"); // Abre arquivo no modo de leitura
+    fp = fopen("despesas.dat", "r+b");
     if (fp == NULL) {
         printf("Erro na abertura do arquivo!\n");
         free(despesa);
         return NULL;
+
     }
 
     while (fread(despesa, sizeof(Despesas), 1, fp)) {
-        if ((strcmp(despesa->id, id_informado) == 0) && (despesa->status != 'i')) {  // Compara strings e verifica o status
+        if ((strcmp(despesa->id, id_informado)== 0) && (despesa->status != 'i')) {
+            encontrado = 1;
+
             exibir_despesa(despesa);
 
-            printf("///            Descrição: ");
-            fgets(despesa->descricao, sizeof(despesa->descricao), stdin);
-            remove_enter(despesa->descricao);
+                printf("///            Descrição: ");
+        fgets(despesa->descricao, sizeof(despesa->descricao), stdin);
+        remove_enter(despesa->descricao);
 
-            do {
-                printf("///            Valor: ");
-                fgets(valor_int, 10, stdin); 
-                valor_int[strcspn(valor_int, "\n")] = '\0';
-                if (valida_preco(despesa->valor)){
-                    break; // Sai do laço apenas se for válido
-                } else{
-                    printf("///            Insira uma VALOR válido!\n");
-                }
-            } while (1); // Mantém o laço até quw seja valido
-            despesa->valor = string_to_int(valor_int);
-            do {
-                printf("///            Data (DD/MM/AAAA): ");
-                fgets(despesa->data, sizeof(despesa->data), stdin);
-                remove_enter(despesa->data);
-                if (valida_data(despesa->data)){
-                    break; // Sai do laço apenas se for válido
-                } else{
-                    printf("///            Insira uma DATA válida!\n");
-                }
-            } while (1); // Mantém o laço até quw seja valido
+        do {
+            printf("///            Valor: ");
+            fgets(valor_int, 10, stdin); 
+            valor_int[strcspn(valor_int, "\n")] = '\0';
+            if (valida_preco(valor_int)){
+                break; // Sai do laço apenas se for válido
+            } else{
+                printf("///            Insira uma VALOR válido!\n");
+            }
+        } while (1); // Mantém o laço até quw seja valido
+        despesa->valor = string_to_int(valor_int);
+        do {
+            printf("///            Data (DD/MM/AAAA): ");
+            fgets(despesa->data, sizeof(despesa->data), stdin);
+            remove_enter(despesa->data);
+            if (valida_data(despesa->data)){
+                break; // Sai do laço apenas se for válido
+            } else{
+                printf("///            Insira uma DATA válida!\n");
+            }
+        } while (1); // Mantém o laço até quw seja valido
 
-            fseek(fp, -sizeof(Despesas), SEEK_CUR);
-            fwrite(despesa, sizeof(Despesas), 1, fp);
+                fseek(fp, -sizeof(Despesas), SEEK_CUR);
+                fwrite(despesa, sizeof(Despesas), 1, fp);
 
             printf("///            Dados atualizados com sucesso!\n");
             break;
 
-        } else {
-            printf("///            id não encontrado!\n");
-            break;
-        }
+        } 
+    }
+    if (!encontrado) {
+        printf("///            Despesa não encontrada!\n");
+        printf("///                                                                         ///\n");
     }
 
     printf("///                                                                         ///\n");
@@ -258,30 +263,33 @@ void excluir_despesa() {
     FILE* fp;
     Despesas* despesa;
     char id_informado[11];
+    int encontrado = 0;
     
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Excluir Despesa        = = = = = = = = = = = = = = ///\n");
     printf("///                                                                         ///\n");
 
-    printf("/// Informe o id da despesa:                                                ///\n");
+     printf("/// Informe o ID da despesa (DES-XXXXX) que deseja excluir: ");
     fgets(id_informado, sizeof(id_informado), stdin);
     remove_enter(id_informado);
 
-    despesa = (Despesas*) malloc(sizeof(Despesas)); // Aloca memória dinâmica
+    despesa = (Despesas*) malloc(sizeof(Despesas));
     if (despesa == NULL) {
-        printf("Erro ao alocar memória para a despesa.\n");
+        printf("Erro ao alocar memória para o morador.\n");
         exit(1);
     }
 
-    fp = fopen("despesas.dat", "r+b"); // Abre arquivo no modo de leitura
+    fp = fopen("despesas.dat", "r+b");
     if (fp == NULL) {
         printf("Erro na abertura do arquivo!\n");
         free(despesa);
         return NULL;
+
     }
 
     while (fread(despesa, sizeof(Despesas), 1, fp)) {
-        if ((strcmp(despesa->id, id_informado) == 0) && (despesa->status != 'i')) {  // Compara strings e verifica o status
+        if ((strcmp(despesa->id, id_informado)== 0) && (despesa->status != 'i')) {
+            encontrado = 1;
             exibir_despesa(despesa);
             despesa->status = 'i';
             fseek(fp, -sizeof(Despesas), SEEK_CUR);
@@ -290,10 +298,10 @@ void excluir_despesa() {
             printf("///            Dados atualizados com sucesso!\n");
             break;
 
-        } else {
-            printf("///            id não encontrado!\n");
-            break;
-        }
+        } 
+    }
+     if (!encontrado) {
+        printf("///            Despesa não encontrada!\n");
     }
 
     printf("///                                                                         ///\n");
