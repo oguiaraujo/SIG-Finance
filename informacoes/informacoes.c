@@ -21,6 +21,14 @@ void menu_informacoes(void)
     printf("///   - - - @tome-arcanjo              e          @coderlupus      - - -    ///\n");
     printf("///                  - - -           E-mail       - - -                     ///\n");
     printf("///   - - - tomearcanjo12@gmail.com    e     nlopesr2006@gmail.com - - -    ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///   - - - Guilherme Araújo           e      Samuel Morais        - - -    ///\n");
+    printf("///                  - - -         Instagram      - - -                     ///\n");
+    printf("///   - - - @oguiaraujo_o              e                           - - -    ///\n");
+    printf("///                  - - -           Github       - - -                     ///\n");
+    printf("///   - - - @oguiaraujo                e      @SamuelMorais45      - - -    ///\n");
+    printf("///                  - - -           E-mail       - - -                     ///\n");
+    printf("///   - - - guilherme531araujo@gmail.com  e                        - - -    ///\n");
     printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
 
