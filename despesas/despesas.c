@@ -51,6 +51,7 @@ void menu_despesas(void){
 Despesas* cadastrar_despesa(void) {
     system("clear||cls");
     Despesas* despesa;
+    char valor_int[10];
     despesa = (Despesas*) malloc(sizeof(Despesas));
     if (despesa == NULL) {
         printf("Erro ao alocar memória para o despesa.\n");
@@ -72,15 +73,15 @@ Despesas* cadastrar_despesa(void) {
 
     do {
         printf("///            Valor: ");
-        fgets(despesa->valor, sizeof(despesa->valor), stdin);
-        remove_enter(despesa->valor);
-        if (valida_preco(despesa->valor)){
+        fgets(valor_int, 10, stdin); 
+        valor_int[strcspn(valor_int, "\n")] = '\0';
+        if (valida_preco(valor_int)){
             break; // Sai do laço apenas se for válido
         } else{
             printf("///            Insira uma VALOR válido!\n");
         }
     } while (1); // Mantém o laço até quw seja valido
-
+    despesa->valor = string_to_int(valor_int);
     do {
         printf("///            Data (DD/MM/AAAA): ");
         fgets(despesa->data, sizeof(despesa->data), stdin);
@@ -108,7 +109,7 @@ Despesas* pesquisar_despesa(void) {
     system("clear||cls");
     FILE* fp;
     Despesas* despesa;
-    char id_informado[5];
+    char id_informado[11];
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Pesquisar Despesa      = = = = = = = = = = = = = = ///\n");
@@ -161,7 +162,7 @@ void exibir_despesa(const Despesas* despesa) {
     printf("///                                                                         ///\n");
     printf("///            Descrição: %s", despesa->descricao);
     printf("\n");
-    printf("///            Valor: %s", despesa->valor);
+    printf("///            Valor: %i", despesa->valor);
     printf("\n");
     printf("///            Data: %s", despesa->data);
     printf("\n");
@@ -177,7 +178,8 @@ void atualizar_despesa(void) {
     system("clear||cls");
     FILE* fp;
     Despesas* despesa;
-    char id_informado[5];
+    char id_informado[11];
+    char valor_int[10];
 
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Atualizar Despesa      = = = = = = = = = = = = = = ///\n");
@@ -210,15 +212,15 @@ void atualizar_despesa(void) {
 
             do {
                 printf("///            Valor: ");
-                fgets(despesa->valor, sizeof(despesa->valor), stdin);
-                remove_enter(despesa->valor);
+                fgets(valor_int, 10, stdin); 
+                valor_int[strcspn(valor_int, "\n")] = '\0';
                 if (valida_preco(despesa->valor)){
                     break; // Sai do laço apenas se for válido
                 } else{
                     printf("///            Insira uma VALOR válido!\n");
                 }
             } while (1); // Mantém o laço até quw seja valido
-
+            despesa->valor = string_to_int(valor_int);
             do {
                 printf("///            Data (DD/MM/AAAA): ");
                 fgets(despesa->data, sizeof(despesa->data), stdin);
@@ -255,7 +257,7 @@ void excluir_despesa() {
     system("clear||cls");
     FILE* fp;
     Despesas* despesa;
-    char id_informado[5];
+    char id_informado[11];
     
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
     printf("///            = = = = = Excluir Despesa        = = = = = = = = = = = = = = ///\n");
@@ -340,4 +342,19 @@ void gera_id_despesas(char* id_despesas) {
     fclose(fp);
 
     sprintf(id_despesas, "DES-%05d", contador);
+}
+
+//Créditos: @fillipemdrs https://github.com/Diego-Axel/SIG-DietPlan.git
+int string_to_int(char* str) {
+    int result = 0;  // Para armazenar o número convertido
+    int i = 0;
+    while (str[i] != '\0') {
+        if (isdigit(str[i])) {  // Verifica se o caractere é um dígito
+            result = result * 10 + (str[i] - '0');  // Converte caractere em número
+        } else {
+            break;  // Para no primeiro caractere não numérico
+        }
+        i++;
+    }
+    return result;
 }

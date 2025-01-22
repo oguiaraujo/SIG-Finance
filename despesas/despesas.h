@@ -3,7 +3,7 @@ typedef struct despesas Despesas;
 struct despesas {
     char cpf_responsavel[13];
     char descricao[102];
-    char valor[10];
+    int valor;
     char data[12];
     char id[11];
     char status;
@@ -22,3 +22,4 @@ Despesas* pesquisar_despesa(void);
 void atualizar_despesa(void);
 void excluir_despesa(void);
 void gera_id_despesas(char*);
+int string_to_int(char* str);

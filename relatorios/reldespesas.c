@@ -14,10 +14,11 @@ void relatorios_despesa(void) {
     printf("///                                                                           ///\n");
     printf("///            1. Todas as Despesas                                           ///\n");
     printf("///            2. Todas as Despesas(ordenados por data)                       ///\n");
-    printf("///            3. Despesas por Data                                           ///\n");
-    printf("///            4. Despesas por Valor                                          ///\n");
-    printf("///            5. Despesas Ativas                                             ///\n");
-    printf("///            6. Despesas Inativas                                           ///\n");
+    printf("///            3. Todas as Despesas(ordenados por valor)                      ///\n");
+    printf("///            4. Despesas por Data                                           ///\n");
+    printf("///            5. Despesas por Valor                                          ///\n");
+    printf("///            6. Despesas Ativas                                             ///\n");
+    printf("///            7. Despesas Inativas                                           ///\n");
     printf("///            0. Voltar                                                      ///\n");
     printf("///                                                                           ///\n");
     printf("///            Escolha a opção desejada: ");
@@ -32,15 +33,18 @@ void relatorios_despesa(void) {
         exibe_datas_ordenadas();
         break;
     case 3:
-        exibe_despesa_por_dat();
+        exibe_valor_ordenado();
         break;
     case 4:
-        exibe_despesa_por_valor();
+        exibe_despesa_por_dat();
         break;
     case 5:
-        exibe_despesas_ativas();
+        exibe_despesa_por_valor();
         break;
     case 6:
+        exibe_despesas_ativas();
+        break;
+     case 7:
         exibe_despesas_inativas();
         break;
      case 0:
@@ -77,7 +81,7 @@ void exibe_todas_despesas(void) {
         char* nome = get_nome_morador(despesa.cpf_responsavel);
         printf("///            Responsável: %s\n", nome);
         printf("///            Descrição: %s\n", despesa.descricao);
-        printf("///            Valor: %s\n", despesa.valor);
+        printf("///            Valor: %i\n", despesa.valor);
         printf("///            Data: %s\n", despesa.data);
         printf("///////////////////////////////////////////////////////////////////////////////\n");
     }
@@ -137,7 +141,7 @@ void exibe_despesa_por_dat (void) {
             char* nome = get_nome_morador(despesa->cpf_responsavel);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa->descricao);
-            printf("///            Valor: %s\n", despesa->valor);
+            printf("///            Valor: %i\n", despesa->valor);
             printf("///////////////////////////////////////////////////////////////////////////////\n");
         }
     }
@@ -198,7 +202,7 @@ void exibe_despesa_por_valor (void) {
             char* nome = get_nome_morador(despesa->cpf_responsavel);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa->descricao);
-            printf("///            Valor: %s\n", despesa->valor);
+            printf("///            Data: %s\n", despesa->data);
             printf("///////////////////////////////////////////////////////////////////////////////\n");
         }
     }
@@ -236,7 +240,7 @@ void exibe_despesas_ativas(void) {
             char* nome = get_nome_morador(despesa.cpf_responsavel);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa.descricao);
-            printf("///            Valor: %s\n", despesa.valor);
+            printf("///            Valor: %i\n", despesa.valor);
             printf("///            Data: %s\n", despesa.data);
             printf("///////////////////////////////////////////////////////////////////////////////\n");
         }
@@ -274,7 +278,7 @@ void exibe_despesas_inativas(void) {
             char* nome = get_nome_morador(despesa.cpf_responsavel);
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", despesa.descricao);
-            printf("///            Valor: %s\n", despesa.valor);
+            printf("///            Valor: %i\n", despesa.valor);
             printf("///            Data: %s\n", despesa.data);
             printf("///////////////////////////////////////////////////////////////////////////////\n");
         }
@@ -303,6 +307,53 @@ void exibe_datas_ordenadas(void) {
     
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+}
+
+void exibe_valor_ordenado(void) {
+    system("clear||cls");
+    printf("\n///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                Lista de Despesas Por Valor                               ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    Lista_des* primeiro = valor_ordenado();
+    mostra_valor_ordenado(primeiro);
+    free_valor_ordenado(primeiro);
+
+    
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+
+
+void mostra_datas_ordenadas(Lista_des* primeiro) {
+    if (primeiro == NULL) {
+        printf("/// Nenhuma tarefa cadastrada!\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        getchar();
+        return;
+    }
+
+    while (primeiro != NULL) {
+            char* nome = get_nome_morador(primeiro->des->cpf_responsavel);
+            printf("///            ID da Tarefa: %s\n", primeiro->des->id);
+            printf("///            Responsável: %s\n", nome);
+            printf("///            Descrição: %s\n", primeiro->des->descricao);
+            printf("///            Data: %s\n", primeiro->des->data);
+            printf("///            Valor: %i\n", primeiro->des->valor);
+            printf("///            status: %c\n", primeiro->des->status);
+            printf("///////////////////////////////////////////////////////////////////////////////\n");
+        primeiro = primeiro->prox;
+    }
+}
+
+// Créditos: Flavius Gorgônio @flgorgonio
+void free_datas_ordenadas(Lista_des* primeiro) {
+    Lista *p = primeiro;
+    while (p != NULL){
+        Lista *t = p->prox;
+        free(p);
+        p = t;
+    }
 }
 
 Lista_des* datas_ordenadas(void) {
@@ -358,7 +409,51 @@ Lista_des* datas_ordenadas(void) {
     return primeiro;
 }
 
-void mostra_datas_ordenadas(Lista_des* primeiro) {
+Lista_des* valor_ordenado(void) {
+    FILE* fp;
+    Despesas* des;
+    Lista_des* novo;
+    Lista_des* primeiro = NULL;
+
+    fp = fopen("despesas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        return 0;
+    }
+
+     do{
+        des = (Despesas*) malloc(sizeof(Despesas));
+        if (fread(des, sizeof(Despesas), 1, fp) != 1) {
+            free(des);
+            break;
+        }
+
+        novo = (Lista_des*) malloc(sizeof(Lista_des));
+        novo->des = des;
+        novo->prox = NULL; 
+
+        if (primeiro == NULL) {
+            primeiro = novo; 
+        } else if (novo->des->valor < primeiro->des->valor) {
+            novo->prox = primeiro;
+            primeiro = novo; 
+        } else {
+            Lista_des* anterior = primeiro;
+            Lista_des* atual = primeiro->prox;
+            while ((atual != NULL) && (novo->des->valor > atual->des->valor)) {
+                anterior = atual;
+                atual = atual->prox;
+            }
+            anterior->prox = novo; 
+            novo->prox = atual;
+        }
+    }while(1);
+    
+    fclose(fp); 
+    return primeiro;   
+}
+
+void mostra_valor_ordenado(Lista_des* primeiro) {
     if (primeiro == NULL) {
         printf("/// Nenhuma tarefa cadastrada!\n");
         printf("///////////////////////////////////////////////////////////////////////////////\n");
@@ -372,7 +467,7 @@ void mostra_datas_ordenadas(Lista_des* primeiro) {
             printf("///            Responsável: %s\n", nome);
             printf("///            Descrição: %s\n", primeiro->des->descricao);
             printf("///            Data: %s\n", primeiro->des->data);
-            printf("///            Valor: %s\n", primeiro->des->valor);
+            printf("///            Valor: %i\n", primeiro->des->valor);
             printf("///            status: %c\n", primeiro->des->status);
             printf("///////////////////////////////////////////////////////////////////////////////\n");
         primeiro = primeiro->prox;
@@ -380,7 +475,7 @@ void mostra_datas_ordenadas(Lista_des* primeiro) {
 }
 
 // Créditos: Flavius Gorgônio @flgorgonio
-void free_datas_ordenadas(Lista_des* primeiro) {
+void free_valor_ordenado(Lista_des* primeiro) {
     Lista *p = primeiro;
     while (p != NULL){
         Lista *t = p->prox;
@@ -388,3 +483,5 @@ void free_datas_ordenadas(Lista_des* primeiro) {
         p = t;
     }
 }
+
+
