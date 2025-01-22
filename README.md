@@ -37,6 +37,7 @@ A estrutura do código está sendo organizada em módulos, buscando facilitar a 
 | Nathan L.    | Desenvolvedor          | [@coderlupus](https://github.com/coderlupus) |
 | Tomé Arcanjo       | Desenvolvedor          | [@Tome-arcanjo](https://github.com/Tome-arcanjo) |
 | Guilherme Araújo | Desenvolvedor      | [@oguiaraujo](https://github.com/oguiaraujo) |
+| Samuel Morais | Desenvolvedor      | [@SamuelMorais45](https://github.com/SamuelMorais45) |
 ## 🚀 Como Clonar o Repositório
 
 Para clonar o repositório e começar a trabalhar no projeto SIG-Finance, siga os passos abaixo:
