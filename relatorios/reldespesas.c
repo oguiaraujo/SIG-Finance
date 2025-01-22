@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "reldespesas.h"
-#include "../despesas/despesas.h"
 #include "../moradores/moradores.h"
 
 void relatorios_despesa(void) {
@@ -295,10 +294,97 @@ void exibe_despesas_inativas(void) {
 void exibe_datas_ordenadas(void) {
     system("clear||cls");
     printf("\n///////////////////////////////////////////////////////////////////////////////\n");
-    printf("///                Lista de Tarefas com prazos ordenados                    ///\n");
+    printf("///                Lista de Despesas Por Data Ordenada                        ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
-    
+    Lista_des* primeiro = datas_ordenadas();
+    mostra_datas_ordenadas(primeiro);
+    free_datas_ordenadas(primeiro);
+
     
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+}
+
+Lista_des* datas_ordenadas(void) {
+    FILE* fp;
+    Despesas* des;
+    Lista_des* novo;
+    Lista_des* primeiro = NULL;
+
+    fp = fopen("despesas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro na abertura do arquivo!\n");
+        return 0;
+    }
+
+    do {
+        des = (Despesas*) malloc(sizeof(Despesas));
+        if (fread(des, sizeof(Despesas), 1, fp) != 1) {
+            free(des);
+            break;
+        }
+
+        novo = (Lista_des*) malloc(sizeof(Lista_des));
+        novo->des = des;
+        novo->prox = NULL;
+
+        if (primeiro == NULL) {
+            primeiro = novo;
+        } else if (strcmp(novo->des->data + 6, primeiro->des->data + 6) > 0 || 
+                   (strcmp(novo->des->data + 6, primeiro->des->data + 6) == 0 && 
+                    strcmp(novo->des->data + 3, primeiro->des->data + 3) > 0) ||
+                   (strcmp(novo->des->data + 6, primeiro->des->data + 6) == 0 &&
+                    strcmp(novo->des->data + 3, primeiro->des->data + 3) == 0 &&
+                    strcmp(novo->des->data, primeiro->des->data) > 0) < 0) {
+            novo->prox = primeiro;
+            primeiro = novo;
+        } else {
+            Lista_des* anterior = primeiro;
+            Lista_des* atual = primeiro->prox;
+            while ((atual != NULL) && (strcmp(novo->des->data + 6, atual->des->data + 6) < 0 ||
+                  (strcmp(novo->des->data + 6, atual->des->data + 6) == 0 &&
+                   strcmp(novo->des->data + 3, atual->des->data + 3) < 0) ||
+                  (strcmp(novo->des->data + 6, atual->des->data + 6) == 0 &&
+                   strcmp(novo->des->data + 3, atual->des->data + 3) == 0 &&
+                   strcmp(novo->des->data, atual->des->data) < 0))) {
+                anterior = atual;
+                atual = atual->prox;
+            }
+            anterior->prox = novo;
+            novo->prox = atual;
+        }
+    } while(1);
+    fclose(fp);
+    return primeiro;
+}
+
+void mostra_datas_ordenadas(Lista_des* primeiro) {
+    if (primeiro == NULL) {
+        printf("/// Nenhuma tarefa cadastrada!\n");
+        printf("///////////////////////////////////////////////////////////////////////////////\n");
+        getchar();
+        return;
+    }
+
+    while (primeiro != NULL) {
+            char* nome = get_nome_morador(primeiro->des->cpf_responsavel);
+            printf("///            ID da Tarefa: %s\n", primeiro->des->id);
+            printf("///            Responsável: %s\n", nome);
+            printf("///            Descrição: %s\n", primeiro->des->descricao);
+            printf("///            Data: %s\n", primeiro->des->data);
+            printf("///            Valor: %s\n", primeiro->des->valor);
+            printf("///            status: %c\n", primeiro->des->status);
+            printf("///////////////////////////////////////////////////////////////////////////////\n");
+        primeiro = primeiro->prox;
+    }
+}
+
+// Créditos: Flavius Gorgônio @flgorgonio
+void free_datas_ordenadas(Lista_des* primeiro) {
+    Lista *p = primeiro;
+    while (p != NULL){
+        Lista *t = p->prox;
+        free(p);
+        p = t;
+    }
 }

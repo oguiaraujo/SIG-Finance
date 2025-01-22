@@ -12,7 +12,7 @@ struct despesas {
 typedef struct lista_des Lista_des;
 
 struct lista_des {
-    Despesas* tar;
+    Despesas* des;
     Lista_des* prox;
 };
 
